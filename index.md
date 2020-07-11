@@ -1,10 +1,4 @@
-Hello World
-===========
+### Hello
+==========
 
-It's hosted with markdown.
-
-Some helpful tips and tricks
-
-```bash
-sudo yay -Syu
-```
+###### testing testing
