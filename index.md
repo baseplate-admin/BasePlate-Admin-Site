@@ -1,6 +1,10 @@
 Hello World
 ===========
 
-I'm hosted with GitHub Pages.
+It's hosted with markdown.
 
-Hello! Rhythm!!
+Some helpful tips and tricks
+
+```bash
+sudo yay -Syu
+```
