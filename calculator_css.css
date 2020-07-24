@@ -1,0 +1,53 @@
+body{
+    background-color:black;
+    position:fixed;
+}
+
+.calc_body{
+    width:360px;
+    height:90vh;
+
+}
+input{
+    width:90%;
+    height:20vh;
+    outline:none;
+    border:none;
+    background:black;
+    color:lightgray;
+    text-align: right;
+    font-size:55px;
+    font-weight:lighter;
+}
+
+button{
+    width:60px;
+    margin:10px;
+    height:48px;
+    font-size:25px;
+    border-radius:50%;
+    text-align: center;
+    border:none;
+    outline:none;
+}
+
+.number{
+    background: #333;
+    color:lightgray;
+}
+
+.operator{
+    background:orange;
+    color:white;
+}
+
+.special{
+    background:darkgray;
+    color:black;
+}
+
+
+#fut{
+    background-color:yellow;
+    margin:10px;
+}
