@@ -1,0 +1,166 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.7.1/brython.min.js"></script>
+  <link rel="stylesheet">
+  <style media="screen">
+  body{
+      background-color:black;
+      position:fixed;
+  }
+
+  .calc_body{
+      width:360px;
+      height:90vh;
+
+  }
+  input{
+      width:90%;
+      height:20vh;
+      outline:none;
+      border:none;
+      background:black;
+      color:lightgray;
+      text-align: right;
+      font-size:55px;
+      font-weight:lighter;
+  }
+
+  button{
+      width:60px;
+      margin:10px;
+      height:48px;
+      font-size:25px;
+      border-radius:50%;
+      text-align: center;
+      border:none;
+      outline:none;
+  }
+
+  .number{
+      background: #333;
+      color:lightgray;
+  }
+
+  .operator{
+      background:orange;
+      color:white;
+  }
+
+  .special{
+      background:darkgray;
+      color:black;
+  }
+
+
+  #fut{
+      background-color:yellow;
+      margin:10px;
+  }
+
+  </style>
+  <script type='text/python'>
+  from browser import document
+  from browser import alert
+  from browser import html
+
+  def ins(e):
+      global inp
+      inp.value += e.target.dataset.val
+
+  a = document["a"]
+  b = document['b']
+  c = document['c']
+  d = document['d']
+  e = document['e']
+  f = document['f']
+  g = document['g']
+  h = document['h']
+  i = document['i']
+  j = document['j']
+  k = document['k']
+  l = document['l']
+  m = document['m']
+  n = document['n']
+  o = document['o']
+  p = document['p']
+  q = document['q']
+  r = document['r']
+
+  buttons = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r]
+
+
+  for i, x in enumerate(buttons):
+      x.addEventListener('click', ins)
+
+  inp = document["inp"]
+
+
+  def clear_inp():
+      inp.value = ""
+
+
+  document["a"].bind("click", clear_inp)
+
+
+  def clear_inp_1():
+      inp.value = inp.value[0:-1]
+
+
+  document["b"].bind("click", clear_inp_1)
+
+
+  def calc():
+      try:
+          inp.value = eval(inp.value)
+      except:
+          inp.value = "Error"
+
+
+  document["s"].bind("click", calc)
+
+  </script>
+  <title>Calculator</title>
+</head>
+<body onload="brython()">
+  <center>
+    <div class="clac body">
+      <input readonly id='inp'>
+      <table>
+        <tr>
+          <td><button class="special" id="a">AC</button></td>
+          <td><button class="special" id="b">DEL</button></td>
+          <td><button class="special" id="c" data-val="%">%</button></td>
+          <td><button class="operator" id="d" data-val="/">/</button></td>
+        </tr>
+        <tr>
+          <td><button class="number" id="e" data-val="7">7</button></td>
+          <td><button class="number" id="f" data-val="8">8</button></td>
+          <td><button class="number" id="g" data-val="9">9</button></td>
+          <td><button class="operator" id="h" data-val="*">X</button></td>
+        </tr>
+        <tr>
+          <td><button class="number" id="i" data-val="4">4</button></td>
+          <td><button class="number" id="j" data-val="5">5</button></td>
+          <td><button class="number" id="k" data-val="6">6</button></td>
+          <td><button class="operator" id="l" data-val="-">-</button></td>
+        </tr>
+        <tr>
+          <td><button class="number" id="n" data-val="1">1</button></td>
+          <td><button class="number" id="o" data-val="2">2</button></td>
+          <td><button class="number" id="p" data-val="3">3</button></td>
+          <td><button class="operator" id="q" data-val="+">+</button></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button class="number" id="m" data-val="0" style="width:120px;border-radius:60%">0</button></td>
+          <td><button class='number' id="r" data-val=".">.</button></td>
+          <td><button class="operator" id="s" data-val="=">=</button></td>
+        </tr>
+      </table>
+    </div>
+  </center>
+  <p id="fut">This is Python calculator made with &hearts; by baseplate-admin</p>
+</body>
+</html>
