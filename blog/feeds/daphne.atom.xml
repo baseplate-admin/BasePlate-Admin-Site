@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Blog - Daphne</title><link href="https://baseplate-admin.github.io/blog/" rel="alternate"></link><link href="https://baseplate-admin.github.io/blog/feeds/daphne.atom.xml" rel="self"></link><id>https://baseplate-admin.github.io/blog/</id><updated>2023-02-24T12:02:13+06:00</updated><entry><title>How I added daphne server dectection to wappalyzer</title><link href="https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="alternate"></link><published>2023-02-23T00:00:00+06:00</published><updated>2023-02-24T12:02:13+06:00</updated><author><name>Baseplate-Admin</name></author><id>tag:baseplate-admin.github.io,2023-02-23:/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html</id><summary type="html">&lt;p&gt;Back in the end of 2021 I was really amazed by &lt;code&gt;wappalyzer&lt;/code&gt;. This seemingly small piece of extension can detect what the backend is ( albeit not guranteed ).&lt;/p&gt;
+&lt;p&gt;As I was relatively new to &lt;code&gt;django&lt;/code&gt; back then I was amazed that many of the top sites are powered by django ( &lt;strong&gt;・ …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Back in the end of 2021 I was really amazed by &lt;code&gt;wappalyzer&lt;/code&gt;. This seemingly small piece of extension can detect what the backend is ( albeit not guranteed ).&lt;/p&gt;
+&lt;p&gt;As I was relatively new to &lt;code&gt;django&lt;/code&gt; back then I was amazed that many of the top sites are powered by django ( &lt;strong&gt;・┆✦ʚ♡ɞ✦ ┆・&lt;/strong&gt; )!!! This was honestly a shock to me as most of people around me are talking all about PHP and stuff ( I mean PHP is not a bad language | Just gives too many opportunity to shoot yourself in the foot with bad practices )&lt;/p&gt;
+&lt;h1 id="context"&gt;Context&lt;a class="headerlink" href="#context" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;django&lt;/code&gt; is a great framework written in python. It is &lt;strong&gt;robust&lt;/strong&gt;, &lt;strong&gt;secure&lt;/strong&gt; and generally pleasent to work with. The ASGI ( Asynchronus Server Gateway Interface ) framework written by django core team ( speally &lt;a href="https://github.com/andrewgodwin"&gt;&lt;code&gt;andrew&lt;/code&gt;&lt;/a&gt; ) was &lt;a href="https://github.com/django/daphne/"&gt;&lt;code&gt;daphne&lt;/code&gt;&lt;/a&gt;. &lt;code&gt;dapnhe&lt;/code&gt; was not detected by wappalyzer. This was annoying &lt;strong&gt;（ミ￣ー￣ミ）&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id="modifying-wappalyzer"&gt;Modifying Wappalyzer&lt;a class="headerlink" href="#modifying-wappalyzer" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;So being annoyed at &lt;code&gt;daphne&lt;/code&gt; not being detected by &lt;code&gt;wappalyzer&lt;/code&gt; ( which I mean it should ). I opened a &lt;a href="https://github.com/wappalyzer/wappalyzer/pull/5466"&gt;pull request&lt;/a&gt; in the wappalyzer repo. Which &lt;a href="https://github.com/baseplate-admin/wappalyzer/blob/2e3dc7ccd29823003ef77ed79fc0dfaaa228f270/src/technologies/d.json#L231-L246"&gt;modified these lines&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="s2"&gt;"Daphne"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s2"&gt;"cats"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+      &lt;span class="mi"&gt;22&lt;/span&gt;
+    &lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="s2"&gt;"headers"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="s2"&gt;"Server"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"Daphne"&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="s2"&gt;"implies"&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;
+      &lt;span class="s2"&gt;"TwistedWeb"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="s2"&gt;"Python"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="s2"&gt;"Zope"&lt;/span&gt;
+    &lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="s2"&gt;"oss"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"icon"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"daphne.svg"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"website"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"https://github.com/django/daphne"&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The Pull Request was accepted by &lt;a href="https://github.com/AliasIO"&gt;@aliasio&lt;/a&gt; but I was shocked to see that &lt;code&gt;daphne&lt;/code&gt; was still not detected by &lt;code&gt;wappalyzed&lt;/code&gt;. Then diving deeper, It was being detected on &lt;a href="https://github.com/baseplate-admin/Social-Media/tree/d84c4971aff58c5a9a9c73767a9bb2f1440d917c/backend"&gt;my social media project&lt;/a&gt; but not on &lt;a href="github.com/baseplate-admin/animecore"&gt;my other project&lt;/a&gt;. Panic seized me as I was frantically looking for answers. It couldn't be happening cause I saw that &lt;code&gt;server&lt;/code&gt; header detection was how &lt;code&gt;wappalyzer&lt;/code&gt; understood the backend software. I was pretty much sure that I saw &lt;code&gt;daphne&lt;/code&gt; on the server header on &lt;a href="https://github.com/baseplate-admin/Social-Media/tree/d84c4971aff58c5a9a9c73767a9bb2f1440d917c/backend"&gt;my chat application&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Daphne Server Header on websocket" class="image-center" src="https://baseplate-admin.github.io/blog/images/How I added daphne to wappalyzer detection/daphne-server-header-on-websocket.png"/&gt;&lt;/p&gt;
+&lt;p&gt;But then i realized that the header was only being sent on &lt;code&gt;websocket&lt;/code&gt; responses but not on &lt;code&gt;http&lt;/code&gt; responses.&lt;/p&gt;
+&lt;h1 id="opening-an-issue-on-github"&gt;Opening an issue on github&lt;a class="headerlink" href="#opening-an-issue-on-github" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I was quick to go to django &lt;a href="https://github.com/django/daphne/"&gt;&lt;code&gt;daphne&lt;/code&gt;&lt;/a&gt; github to open an &lt;a href="https://github.com/django/daphne/issues/395"&gt;issue&lt;/a&gt; to investigate deeper into this mess. I thought that &lt;code&gt;django&lt;/code&gt; was hiding &lt;code&gt;daphne&lt;/code&gt; header intentionally to block out attackers ( this is not a good way to handle such use cases tbh ).&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/adamchainz"&gt;@adamchainz&lt;/a&gt; was quick to &lt;a href="https://github.com/django/daphne/issues/395#issuecomment-1001920882"&gt;respond&lt;/a&gt; to me. Confirming that I was right on thinking that &lt;code&gt;django&lt;/code&gt; &lt;code&gt;daphne&lt;/code&gt; intentionally ( or maybe we had some sort of misunderstanding ).&lt;/p&gt;
+&lt;p&gt;Regardless I wanted the web to be open ( and by a large means allow others to see what they are doing ). So i tried defending my point. By pointing out that other web servers do they same and why should &lt;code&gt;django&lt;/code&gt; &lt;code&gt;daphne&lt;/code&gt; do things differently ? (&lt;code&gt;django&lt;/code&gt; + &lt;code&gt;daphne&lt;/code&gt; wasn't event that common | &lt;code&gt;django&lt;/code&gt; + &lt;code&gt;uvicorn&lt;/code&gt; was back then)&lt;/p&gt;
+&lt;p&gt;Then i pointed out other web servers doing things differently:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Gunicorn :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Captured from : https://launchpad.net/ &lt;img alt="Gunicorn Shows server header" class="image-center" src="https://baseplate-admin.github.io/blog/images/How I added daphne to wappalyzer detection/gunicorn-shows-server-header-and-version.png"/&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Uvicorn :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ran &lt;a href="https://github.com/baseplate-admin/Social-Media/tree/d84c4971aff58c5a9a9c73767a9bb2f1440d917c/backend"&gt;my application&lt;/a&gt; with &lt;code&gt;uvicorn core.asgi:application&lt;/code&gt; &lt;img alt="Uvicorn Shows server header" class="image-center" src="https://baseplate-admin.github.io/blog/images/How I added daphne to wappalyzer detection/uvicorn-shows-server-header.png"/&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So why was &lt;code&gt;daphne&lt;/code&gt; ( a less popular server doing things differently )? Also they were already exposing &lt;code&gt;server&lt;/code&gt; headers via &lt;code&gt;websockets&lt;/code&gt; !!!&lt;/p&gt;
+&lt;p&gt;I &lt;a href="https://github.com/django/daphne/issues/395#issuecomment-1001936960"&gt;countered&lt;/a&gt; &lt;a href="https://github.com/adamchainz"&gt;@adamchainz&lt;/a&gt; &lt;a href="https://github.com/django/daphne/issues/395#issuecomment-1001920882"&gt;argument&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Adam : since it allows targeting servers when vulnerabilities become known&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+Me : I totally agree with this. So we can add an option ( or use a django middleware to modify the headers ) to disable header for mission critical servers. eg:
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;SERVER_HEADER_HIDDEN&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Server'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Adam could finally understand me and &lt;a href="https://github.com/django/daphne/issues/395#issuecomment-1002013198"&gt;he proposed a Pull Request to resolve this issue&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I was thrilled to get a chance into working into &lt;code&gt;django&lt;/code&gt;.. I mean it's &lt;code&gt;django&lt;/code&gt;. The most popular web framework for &lt;code&gt;python&lt;/code&gt;!!&lt;/p&gt;
+&lt;h1 id="opening-a-pull-request-to-resolve-this-issue"&gt;Opening a Pull Request to resolve this issue&lt;a class="headerlink" href="#opening-a-pull-request-to-resolve-this-issue" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;When I looked into &lt;code&gt;daphne&lt;/code&gt; source code. I came to realization that they are using &lt;a href="https://github.com/twisted/twisted"&gt;&lt;code&gt;twisted&lt;/code&gt;&lt;/a&gt; for their network stack. They were using &lt;a href="https://github.com/crossbario/autobahn-python"&gt;&lt;code&gt;autobahn&lt;/code&gt;&lt;/a&gt; for their websocket stack. Some poor chap before me &lt;a href="https://github.com/django/daphne/blob/b0204165b1fc1ccb786e9ba65ad32d20f1fc83f5/daphne/ws_protocol.py#L82"&gt;modified the &lt;code&gt;autobhan&lt;/code&gt; header to be &lt;code&gt;daphne&lt;/code&gt; header&lt;/a&gt; and thats where I was getting the awkward &lt;code&gt;server&lt;/code&gt; header thingy.&lt;/p&gt;
+&lt;p&gt;I came across a piece of code that was doing nothing but it felt like was doing something. ( the server header will not be daphne duh )&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server_name&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server_name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s2"&gt;"daphne"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+   &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setHeader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"server"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server_name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-8"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I replaced it with my own custom code&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server_name&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;responseHeaders&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hasHeader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"server"&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setHeader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"server"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;server_name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and low and behold things were looking very promising to begin with.&lt;/p&gt;
+&lt;p&gt;Then adam &lt;a href="https://github.com/django/daphne/pull/396#discussion_r775915139"&gt;reviewed my code&lt;/a&gt; once again.. This change was not done by me. It was done by &lt;a href="https://github.com/psf/black"&gt;black&lt;/a&gt;!!!&lt;/p&gt;
+&lt;p&gt;After some discussion I was able to resolve this issue and then ran into &lt;a href="https://github.com/django/daphne/pull/396#pullrequestreview-840911732"&gt;another&lt;/a&gt;. I have never written tests for software ( now that i am a bit older i know how important tests are )
+So once again I was down a wild goose chase figuring out how to fix the tests.&lt;/p&gt;
+&lt;p&gt;After some digging around i wrote the tests&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_no_servername&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;"""&lt;/span&gt;
+&lt;span class="sd"&gt;    Passing `--no-server-name` will set server name to '' (empty string)&lt;/span&gt;
+&lt;span class="sd"&gt;    """&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assertCLI&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s2"&gt;"--no-server-name"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"server_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;""&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And this one too ( though adam &lt;a href="https://github.com/django/daphne/pull/396#discussion_r775998730"&gt;helped&lt;/a&gt; me here )&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"server"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"daphne"&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+        &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"server"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"transfer-encoding"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I then rewrote the &lt;code&gt;CHANGELOG&lt;/code&gt; but ran into another roadblock. My wording was not good ?&lt;/p&gt;
+&lt;blockquote&gt;
+My wording : Added default headers to server response, so that if a response from backend didn't contain any server header it will automatically add a daphne server header.
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+Adam's wording : Always add the `Server` header, with value `Daphne`, when it isn&amp;rsquo;t already present.
+&lt;/blockquote&gt;
+&lt;p&gt;This didn't sound good to me. I counteracted with my own points.&lt;/p&gt;
+&lt;blockquote&gt;
+The header is hard coded for Websocket . We cannot change it from backend. ( Even if backend sends a header for websocket daphne overrides that | Thus it wasn't a correct implementation ). Check code and Issue and the pull request to change it.
+
+Because when i profiled daphne, server header was a mask over Autobahn. Otherwise daphne reports that it's running AutoBahn and Twisted.
+
+&lt;/blockquote&gt;
+&lt;p&gt;Then &lt;a href="https://github.com/carltongibson"&gt;&lt;code&gt;Carlton&lt;/code&gt;&lt;/a&gt; dropped in and shared his &lt;a href="https://github.com/django/daphne/pull/396#pullrequestreview-841284864"&gt;view&lt;/a&gt;. As I feared he thought this can be used for malicious intent.&lt;/p&gt;
+&lt;p&gt;I again hopped in and &lt;a href="https://github.com/django/daphne/pull/396#issuecomment-1002531931"&gt;defended my view&lt;/a&gt;. I atleast want to give developers who share my view of a open web a chance to show their stack. ( this wasn't even possible as daphne would filter out the &lt;code&gt;server&lt;/code&gt; header )&lt;/p&gt;
+&lt;p&gt;Some &lt;a href="https://github.com/django/daphne/pull/231"&gt;chap before me&lt;/a&gt; tried to fix this issue. But he couldn't get it right and for some reason &lt;code&gt;andrew&lt;/code&gt; thought things were fine.&lt;/p&gt;
+&lt;p&gt;Then &lt;code&gt;adam&lt;/code&gt; hoped in and &lt;a href="https://github.com/django/daphne/pull/396#issuecomment-1002535530"&gt;saw my perspective&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I understood the plan and &lt;a href="https://github.com/django/daphne/pull/396#issuecomment-1002567731"&gt;gave developers the option to set custom server name&lt;/a&gt; or ( &lt;a href="https://github.com/django/daphne/pull/396#issuecomment-1036397709"&gt;none if they prefer&lt;/a&gt; ) set a default one if there was no argument give.&lt;/p&gt;
+&lt;p&gt;But still to my avail the Pull Request was not merged. At this point I thought there was nothing more I can do but to give them time.&lt;/p&gt;
+&lt;p&gt;After 2 months I again pinged &lt;a href="https://github.com/carltongibson"&gt;carlton&lt;/a&gt; for a review. If this will ever get merged or will this get closed or not.&lt;/p&gt;
+&lt;p&gt;He disappeared again. At this point i moved away from this issue and continued my life ( as i had an important exam in December and i couldn't afford to waste time like this ) but to my surprise near april the PR was merged. This was unexpected to be honest and i was overwhelmed with joy.&lt;/p&gt;
+&lt;p&gt;Thats how I got my first PR merged into &lt;code&gt;django&lt;/code&gt; &lt;code&gt;daphne&lt;/code&gt;&lt;/p&gt;</content><category term="Daphne"></category><category term="Django"></category><category term="Daphne"></category><category term="Wappalyzer"></category></entry></feed>

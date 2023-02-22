@@ -1,0 +1,23 @@
+[input]
+base_directory = "output"
+html_selector = "main"
+
+[[input.files]]
+path = "how-i-added-daphne-server-dectection-to-wappalyzer.html"
+url = "https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html"
+title = "How I added daphne server dectection to wappalyzer"
+
+[[input.files]]
+path = "how-i-lost-my-first-pc.html"
+url = "https://baseplate-admin.github.io/blog/how-i-lost-my-first-pc.html"
+title = "How I lost my first PC"
+
+[[input.files]]
+path = "how-i-fell-in-love-with-honeyworks.html"
+url = "https://baseplate-admin.github.io/blog/how-i-fell-in-love-with-honeyworks.html"
+title = "How I fell in love with Honeyworks"
+
+[[input.files]]
+path = "how-i-fixed-htmx-redeclaration-of-let-element-with-hx-boosttrue.html"
+url = "https://baseplate-admin.github.io/blog/how-i-fixed-htmx-redeclaration-of-let-element-with-hx-boosttrue.html"
+title = "How I fixed htmx redeclaration of let element with hx-boost=true"

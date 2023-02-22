@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<base href="https://baseplate-admin.github.io/blog/"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Pelican" name="generator"/>
+<!--Site Verification -->
+<meta content="1V8JvhKMWGfr6TWJehCv6E9IMDRcDFlTfrLSyvN1IQU" name="google-site-verification"/>
+<meta content="D6960B5563B917400B80A2119D695F17" name="msvalidate.01"/>
+<title>How I added daphne server dectection to wappalyzer</title>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.3.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/stork.css" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/stork-dark.css" media="screen and (prefers-color-scheme: dark)" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/feeds/all.atom.xml" rel="alternate" title="Blog Atom Feed" type="application/atom+xml">
+<style>
+    .headerlink{
+      padding-left: .5rem;
+      opacity: 0;
+      text-decoration: none;
+    }
+    h1:hover > .headerlink {
+      opacity: 1;
+    }
+  </style>
+<meta content="Back in the end of 2021 I was really amazed by wappalyzer. This seemingly small piece of extension can detect what the backend is ( albeit not..." name="description"/>
+<script>
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark')
+                }
+        </script>
+<script type="module">
+                import flamethrower from 'https://cdn.jsdelivr.net/npm/flamethrower-router@0.0.0-meme.12/+esm'
+                const router = flamethrower({ prefetch: 'visible' });
+                window.router = router
+            </script>
+</link><link href="https://baseplate-admin.github.io/blog\how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blog", "item": "https://baseplate-admin.github.io/blog"}, {"@type": "ListItem", "position": 2, "name": "How i added daphne server dectection to wappalyzer", "item": "https://baseplate-admin.github.io/blog\\how-i-added-daphne-server-dectection-to-wappalyzer.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Baseplate-Admin"}, "publisher": {"@type": "Organization", "name": "Blog"}, "headline": "How I added <code>daphne</code> server dectection to <code>wappalyzer</code>", "about": "Daphne", "datePublished": "2023-02-23 00:00"}</script></head>
+<body class="min-h-screen flex flex-col max-w-7xl lg:max-w-none text-zinc-800 bg-neutral-100 dark:bg-neutral-900 dark:text-zinc-300 container mx-auto justify-center md:px-3">
+<nav class="sm:flex sm:justify-between xl:ml-32 pl-4 items-center">
+<div class="flex pt-4">
+<h1 class="font-semibold text-2xl"><a href="https://baseplate-admin.github.io/blog/">Blog</a></h1>
+<button class="text-zinc-700 dark:text-zinc-400 rounded-full focus:outline-none text-sm ml-2 p-1" id="theme-toggle" type="button">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+<ul class="flex flex-wrap lg:mr-24 md:pt-0">
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/archives.html">Archive</a>
+</li>
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+</li>
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/tags.html">Tags</a>
+</li>
+<li class="mr-4 pt-6">
+<a data-cold="" href="https://baseplate-admin.github.io/blog/search.html">Search</a>
+</li>
+</ul>
+</nav>
+<div class="flex-grow md:max-w-screen-md md:mx-auto md:w-3/4 px-4">
+<nav aria-label="Breadcrumb" class="text-zinc-800 dark:text-zinc-300 mt-12 pb-2 md:mt-16">
+<ul class="p-0 inline-flex items-center">
+<li class="flex items-center">
+<a class="text-zinc-800 dark:text-zinc-300 inline-flex items-center" href="https://baseplate-admin.github.io/blog/">
+<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+</path>
+</svg>
+                                Home
+                            </a>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</li>
+<li class="flex items-center">
+<a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</li>
+<li class="flex items-center">
+<a href="https://baseplate-admin.github.io/blog/category/daphne.html">Daphne</a>
+</li>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</ul>
+</nav>
+<main>
+<header>
+<h1 class="font-semibold text-3xl my-2">How I added <code>daphne</code> server dectection to <code>wappalyzer</code></h1>
+<footer class="flex text-sm text-zinc-800 dark:text-zinc-400">
+<div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+<time>February 23, 2023</time>
+<div>
+<span> · 7 min read</span>
+</div>
+<div>
+<span> · Baseplate-Admin</span>
+</div>
+</div>
+</footer>
+<div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+<span>Last updated: February 24, 2023</span>
+</div>
+</header>
+<details class="flex flex-col my-6 p-4 bg-zinc-200 dark:bg-zinc-800 rounded-lg">
+<summary class="text-lg font-bold">Table of contents</summary>
+<div class="mx-4 px-4 underline">
+<div id="toc"><ul><li><a class="toc-href" href="#context" title="Context">Context</a></li><li><a class="toc-href" href="#modifying-wappalyzer" title="Modifying Wappalyzer">Modifying Wappalyzer</a></li><li><a class="toc-href" href="#opening-an-issue-on-github" title="Opening an issue on github">Opening an issue on github</a></li><li><a class="toc-href" href="#opening-a-pull-request-to-resolve-this-issue" title="Opening a Pull Request to resolve this issue">Opening a Pull Request to resolve this issue</a></li></ul></div>
+</div>
+</details>
+<div class="max-w-7xl container mx-auto my-8 text-zinc-800 dark:text-zinc-300 prose lg:max-w-none prose-headings:text-zinc-800 prose-headings:dark:text-zinc-300 prose-h1:text-3xl lg:prose-h1:text-3xl prose-headings:font-semibold prose-pre:bg-zinc-200 prose-pre:text-zinc-800 dark:prose-pre:bg-zinc-800 dark:prose-pre:text-zinc-200 prose-blockquote:text-zinc-800 dark:prose-blockquote:text-zinc-200 prose-a:text-gray-500 dark:prose-a:text-gray-400 dark:prose-strong:text-zinc-200 dark:prose-code:text-zinc-200 dark:prose-code:bg-zinc-800 prose-code:bg-zinc-200 prose-code:font-light prose-img:rounded-md">
+<p>Back in the end of 2021 I was really amazed by <code>wappalyzer</code>. This seemingly small piece of extension can detect what the backend is ( albeit not guranteed ).</p>
+<p>As I was relatively new to <code>django</code> back then I was amazed that many of the top sites are powered by django ( <strong>・┆✦ʚ♡ɞ✦ ┆・</strong> )!!! This was honestly a shock to me as most of people around me are talking all about PHP and stuff ( I mean PHP is not a bad language | Just gives too many opportunity to shoot yourself in the foot with bad practices )</p>
+<h1 id="context">Context<a class="headerlink" href="#context" title="Permanent link">¶</a></h1>
+<p><code>django</code> is a great framework written in python. It is <strong>robust</strong>, <strong>secure</strong> and generally pleasent to work with. The ASGI ( Asynchronus Server Gateway Interface ) framework written by django core team ( speally <a href="https://github.com/andrewgodwin"><code>andrew</code></a> ) was <a href="https://github.com/django/daphne/"><code>daphne</code></a>. <code>dapnhe</code> was not detected by wappalyzer. This was annoying <strong>（ミ￣ー￣ミ）</strong></p>
+<h1 id="modifying-wappalyzer">Modifying Wappalyzer<a class="headerlink" href="#modifying-wappalyzer" title="Permanent link">¶</a></h1>
+<p>So being annoyed at <code>daphne</code> not being detected by <code>wappalyzer</code> ( which I mean it should ). I opened a <a href="https://github.com/wappalyzer/wappalyzer/pull/5466">pull request</a> in the wappalyzer repo. Which <a href="https://github.com/baseplate-admin/wappalyzer/blob/2e3dc7ccd29823003ef77ed79fc0dfaaa228f270/src/technologies/d.json#L231-L246">modified these lines</a></p>
+<div class="highlight"><pre><span></span><code> <span class="s2">"Daphne"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"cats"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="mi">22</span>
+    <span class="p">],</span>
+    <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"Server"</span><span class="p">:</span> <span class="s2">"Daphne"</span>
+    <span class="p">},</span>
+    <span class="s2">"implies"</span><span class="p">:[</span>
+      <span class="s2">"TwistedWeb"</span><span class="p">,</span>
+      <span class="s2">"Python"</span><span class="p">,</span>
+      <span class="s2">"Zope"</span>
+    <span class="p">],</span>
+    <span class="s2">"oss"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">"icon"</span><span class="p">:</span> <span class="s2">"daphne.svg"</span><span class="p">,</span>
+    <span class="s2">"website"</span><span class="p">:</span> <span class="s2">"https://github.com/django/daphne"</span>
+  <span class="p">},</span>
+</code></pre></div>
+<p>The Pull Request was accepted by <a href="https://github.com/AliasIO">@aliasio</a> but I was shocked to see that <code>daphne</code> was still not detected by <code>wappalyzed</code>. Then diving deeper, It was being detected on <a href="https://github.com/baseplate-admin/Social-Media/tree/d84c4971aff58c5a9a9c73767a9bb2f1440d917c/backend">my social media project</a> but not on <a href="github.com/baseplate-admin/animecore">my other project</a>. Panic seized me as I was frantically looking for answers. It couldn't be happening cause I saw that <code>server</code> header detection was how <code>wappalyzer</code> understood the backend software. I was pretty much sure that I saw <code>daphne</code> on the server header on <a href="https://github.com/baseplate-admin/Social-Media/tree/d84c4971aff58c5a9a9c73767a9bb2f1440d917c/backend">my chat application</a>.</p>
+<p><img alt="Daphne Server Header on websocket" class="image-center" src="https://baseplate-admin.github.io/blog/images/How I added daphne to wappalyzer detection/daphne-server-header-on-websocket.png"/></p>
+<p>But then i realized that the header was only being sent on <code>websocket</code> responses but not on <code>http</code> responses.</p>
+<h1 id="opening-an-issue-on-github">Opening an issue on github<a class="headerlink" href="#opening-an-issue-on-github" title="Permanent link">¶</a></h1>
+<p>I was quick to go to django <a href="https://github.com/django/daphne/"><code>daphne</code></a> github to open an <a href="https://github.com/django/daphne/issues/395">issue</a> to investigate deeper into this mess. I thought that <code>django</code> was hiding <code>daphne</code> header intentionally to block out attackers ( this is not a good way to handle such use cases tbh ).</p>
+<p><a href="https://github.com/adamchainz">@adamchainz</a> was quick to <a href="https://github.com/django/daphne/issues/395#issuecomment-1001920882">respond</a> to me. Confirming that I was right on thinking that <code>django</code> <code>daphne</code> intentionally ( or maybe we had some sort of misunderstanding ).</p>
+<p>Regardless I wanted the web to be open ( and by a large means allow others to see what they are doing ). So i tried defending my point. By pointing out that other web servers do they same and why should <code>django</code> <code>daphne</code> do things differently ? (<code>django</code> + <code>daphne</code> wasn't event that common | <code>django</code> + <code>uvicorn</code> was back then)</p>
+<p>Then i pointed out other web servers doing things differently:</p>
+<ul>
+<li>
+<p>Gunicorn :</p>
+<ul>
+<li>Captured from : https://launchpad.net/ <img alt="Gunicorn Shows server header" class="image-center" src="https://baseplate-admin.github.io/blog/images/How I added daphne to wappalyzer detection/gunicorn-shows-server-header-and-version.png"/></li>
+</ul>
+</li>
+<li>
+<p>Uvicorn :</p>
+<ul>
+<li>Ran <a href="https://github.com/baseplate-admin/Social-Media/tree/d84c4971aff58c5a9a9c73767a9bb2f1440d917c/backend">my application</a> with <code>uvicorn core.asgi:application</code> <img alt="Uvicorn Shows server header" class="image-center" src="https://baseplate-admin.github.io/blog/images/How I added daphne to wappalyzer detection/uvicorn-shows-server-header.png"/></li>
+</ul>
+</li>
+</ul>
+<p>So why was <code>daphne</code> ( a less popular server doing things differently )? Also they were already exposing <code>server</code> headers via <code>websockets</code> !!!</p>
+<p>I <a href="https://github.com/django/daphne/issues/395#issuecomment-1001936960">countered</a> <a href="https://github.com/adamchainz">@adamchainz</a> <a href="https://github.com/django/daphne/issues/395#issuecomment-1001920882">argument</a></p>
+<blockquote>
+<p>Adam : since it allows targeting servers when vulnerabilities become known</p>
+</blockquote>
+<blockquote>
+Me : I totally agree with this. So we can add an option ( or use a django middleware to modify the headers ) to disable header for mission critical servers. eg:
+
+
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">SERVER_HEADER_HIDDEN</span><span class="p">:</span>
+    <span class="n">headers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'Server'</span><span class="p">)</span>
+</code></pre></div>
+</blockquote>
+<p>Adam could finally understand me and <a href="https://github.com/django/daphne/issues/395#issuecomment-1002013198">he proposed a Pull Request to resolve this issue</a>.</p>
+<p>I was thrilled to get a chance into working into <code>django</code>.. I mean it's <code>django</code>. The most popular web framework for <code>python</code>!!</p>
+<h1 id="opening-a-pull-request-to-resolve-this-issue">Opening a Pull Request to resolve this issue<a class="headerlink" href="#opening-a-pull-request-to-resolve-this-issue" title="Permanent link">¶</a></h1>
+<p>When I looked into <code>daphne</code> source code. I came to realization that they are using <a href="https://github.com/twisted/twisted"><code>twisted</code></a> for their network stack. They were using <a href="https://github.com/crossbario/autobahn-python"><code>autobahn</code></a> for their websocket stack. Some poor chap before me <a href="https://github.com/django/daphne/blob/b0204165b1fc1ccb786e9ba65ad32d20f1fc83f5/daphne/ws_protocol.py#L82">modified the <code>autobhan</code> header to be <code>daphne</code> header</a> and thats where I was getting the awkward <code>server</code> header thingy.</p>
+<p>I came across a piece of code that was doing nothing but it felt like was doing something. ( the server header will not be daphne duh )</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">"daphne"</span><span class="p">:</span>
+   <span class="bp">self</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="sa">b</span><span class="s2">"server"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span>
+</code></pre></div>
+<p>I replaced it with my own custom code</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">responseHeaders</span><span class="o">.</span><span class="n">hasHeader</span><span class="p">(</span><span class="s2">"server"</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="sa">b</span><span class="s2">"server"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_name</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</code></pre></div>
+<p>and low and behold things were looking very promising to begin with.</p>
+<p>Then adam <a href="https://github.com/django/daphne/pull/396#discussion_r775915139">reviewed my code</a> once again.. This change was not done by me. It was done by <a href="https://github.com/psf/black">black</a>!!!</p>
+<p>After some discussion I was able to resolve this issue and then ran into <a href="https://github.com/django/daphne/pull/396#pullrequestreview-840911732">another</a>. I have never written tests for software ( now that i am a bit older i know how important tests are )
+So once again I was down a wild goose chase figuring out how to fix the tests.</p>
+<p>After some digging around i wrote the tests</p>
+<div class="highlight"><pre><span></span><code> <span class="k">def</span> <span class="nf">test_no_servername</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Passing `--no-server-name` will set server name to '' (empty string)</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertCLI</span><span class="p">([</span><span class="s2">"--no-server-name"</span><span class="p">],</span> <span class="p">{</span><span class="s2">"server_name"</span><span class="p">:</span> <span class="s2">""</span><span class="p">})</span>
+</code></pre></div>
+<p>And this one too ( though adam <a href="https://github.com/django/daphne/pull/396#discussion_r775998730">helped</a> me here )</p>
+<div class="highlight"><pre><span></span><code><span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="p">[(</span><span class="sa">b</span><span class="s2">"server"</span><span class="p">,</span> <span class="sa">b</span><span class="s2">"daphne"</span><span class="p">)]</span>
+        <span class="o">+</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">headers</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="sa">b</span><span class="s2">"server"</span><span class="p">,</span> <span class="sa">b</span><span class="s2">"transfer-encoding"</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+</code></pre></div>
+<p>I then rewrote the <code>CHANGELOG</code> but ran into another roadblock. My wording was not good ?</p>
+<blockquote>
+My wording : Added default headers to server response, so that if a response from backend didn't contain any server header it will automatically add a daphne server header.
+</blockquote>
+<blockquote>
+Adam's wording : Always add the `Server` header, with value `Daphne`, when it isn’t already present.
+</blockquote>
+<p>This didn't sound good to me. I counteracted with my own points.</p>
+<blockquote>
+The header is hard coded for Websocket . We cannot change it from backend. ( Even if backend sends a header for websocket daphne overrides that | Thus it wasn't a correct implementation ). Check code and Issue and the pull request to change it.
+
+Because when i profiled daphne, server header was a mask over Autobahn. Otherwise daphne reports that it's running AutoBahn and Twisted.
+
+</blockquote>
+<p>Then <a href="https://github.com/carltongibson"><code>Carlton</code></a> dropped in and shared his <a href="https://github.com/django/daphne/pull/396#pullrequestreview-841284864">view</a>. As I feared he thought this can be used for malicious intent.</p>
+<p>I again hopped in and <a href="https://github.com/django/daphne/pull/396#issuecomment-1002531931">defended my view</a>. I atleast want to give developers who share my view of a open web a chance to show their stack. ( this wasn't even possible as daphne would filter out the <code>server</code> header )</p>
+<p>Some <a href="https://github.com/django/daphne/pull/231">chap before me</a> tried to fix this issue. But he couldn't get it right and for some reason <code>andrew</code> thought things were fine.</p>
+<p>Then <code>adam</code> hoped in and <a href="https://github.com/django/daphne/pull/396#issuecomment-1002535530">saw my perspective</a>.</p>
+<p>I understood the plan and <a href="https://github.com/django/daphne/pull/396#issuecomment-1002567731">gave developers the option to set custom server name</a> or ( <a href="https://github.com/django/daphne/pull/396#issuecomment-1036397709">none if they prefer</a> ) set a default one if there was no argument give.</p>
+<p>But still to my avail the Pull Request was not merged. At this point I thought there was nothing more I can do but to give them time.</p>
+<p>After 2 months I again pinged <a href="https://github.com/carltongibson">carlton</a> for a review. If this will ever get merged or will this get closed or not.</p>
+<p>He disappeared again. At this point i moved away from this issue and continued my life ( as i had an important exam in December and i couldn't afford to waste time like this ) but to my surprise near april the PR was merged. This was unexpected to be honest and i was overwhelmed with joy.</p>
+<p>Thats how I got my first PR merged into <code>django</code> <code>daphne</code></p>
+<!-- <div class="aspect-w-16 aspect-h-9 mx-auto"></div> CSS placeholder -->
+</div>
+<footer class="flex flex-col mt-10">
+<ul class="flex flex-wrap">
+<a href="https://baseplate-admin.github.io/blog/tag/daphne.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Daphne
+            </li>
+</a>
+<a href="https://baseplate-admin.github.io/blog/tag/django.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Django
+            </li>
+</a>
+<a href="https://baseplate-admin.github.io/blog/tag/wappalyzer.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Wappalyzer
+            </li>
+</a>
+</ul>
+<div class="flex w-full my-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg">
+<div class="w-1/2 rounded-l-lg"></div>
+<div class="w-1/2 hover:bg-zinc-300 dark:hover:bg-zinc-800 rounded-r-lg">
+<a class="flex flex-col" href="https://baseplate-admin.github.io/blog/how-i-lost-my-first-pc.html">
+<div class="text-right mx-4 py-2">
+<p class="text-zinc-500 dark:text-neutral-400 text-sm">NEXT PAGE »</p>
+<p class="text-right py-1 hover:underline">How I lost my first PC</p>
+</div>
+</a>
+</div>
+</div>
+<div class="flex bg-zinc-200 dark:bg-zinc-700 py-2 rounded-lg justify-center space-x-2 text-xs">
+<ul>
+<a aria-label="share Features on facebook" href="https://facebook.com/sharer/sharer.php?u=https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="noopener noreferrer" target="_blank" title="facebook">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-facebook fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="noopener noreferrer" target="_blank" title="linkedin">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-linkedin fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on reddit" href="https://reddit.com/submit?url=https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="noopener noreferrer" target="_blank" title="reddit">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-reddit fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on telegram" href="https://telegram.me/share/url?text=Features&amp;url=https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="noopener noreferrer" target="_blank" title="telegram">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-telegram fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on twitter" href="https://twitter.com/intent/tweet/?text=Features&amp;url=https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="noopener noreferrer" target="_blank" title="twitter">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-twitter fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on whatsapp" href="https://api.whatsapp.com/send?text=Features - https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html" rel="noopener noreferrer" target="_blank" title="whatsapp">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-whatsapp fa-2x"></i>
+</li>
+</a>
+</ul>
+</div>
+</footer>
+<div>
+</div>
+</main>
+</div>
+<footer class="flex w-full text-xs justify-center mt-10 mb-6 text-zinc-500 dark:text-zinc-400">
+<div class="px-4">
+<span>©2023 • </span>Powered by
+                <a class="underline" href="https://getpelican.com/">Pelican</a> &amp;
+                <a class="underline" href="https://github.com/aleylara/Papyrus">Papyrus</a>
+</div>
+</footer>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2GQL37D1L9"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-2GQL37D1L9');
+    </script>
+<script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] =
+                c[a] ||
+            function () {
+                (c[a].q = c[a].q || []).push(arguments);
+            };
+            t = l.createElement(r);
+            t.async = 1;
+            t.src = 'https://www.clarity.ms/tag/' + i;
+            y = l.getElementsByTagName(r)[0];
+            y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'fyrg8w1vbe');
+    </script>
+<script>
+            (()=>{
+                let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+                let themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+                if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                    '(prefers-color-scheme: dark)').matches)) {
+                        themeToggleLightIcon.classList.remove('hidden');
+                    } else {
+                        themeToggleDarkIcon.classList.remove('hidden');
+                    }
+                let themeToggleBtn = document.getElementById('theme-toggle');
+                themeToggleBtn.addEventListener('click', function () {
+                    themeToggleDarkIcon.classList.toggle('hidden');
+                    themeToggleLightIcon.classList.toggle('hidden');
+                    if (localStorage.getItem('color-theme')) {
+                        if (localStorage.getItem('color-theme') === 'light') {
+                            document.documentElement.classList.add('dark');
+                            localStorage.setItem('color-theme', 'dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.setItem('color-theme', 'light');
+                        }
+                    } else {
+                        if (document.documentElement.classList.contains('dark')) {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.setItem('color-theme', 'light');
+                        } else {
+                            document.documentElement.classList.add('dark');
+                            localStorage.setItem('color-theme', 'dark');
+                        }
+                    }
+                });
+            })()
+        </script>
+</body>
+</html>
