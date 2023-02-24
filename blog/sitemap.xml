@@ -5,7 +5,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/</loc>
-<lastmod>2023-02-24T23:24:58-00:00</lastmod>
+<lastmod>2023-02-24T23:37:25-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
@@ -26,7 +26,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-i-fell-in-love-with-honeyworks.html</loc>
-<lastmod>2023-02-24T23:24:11+06:00</lastmod>
+<lastmod>2023-02-24T23:32:06+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
@@ -54,7 +54,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/honeyworks.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
@@ -103,35 +103,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/honeyworks.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/anime.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/gao-bai-shi-xing-wei-yuan-hui-kokuhaku-jikkou-iinkai.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/genshin-impact.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/rebel-rox.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
@@ -152,7 +152,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/author/baseplate-admin.html</loc>
-<lastmod>2023-02-24T23:24:11+06:02</lastmod>
+<lastmod>2023-02-24T23:32:06+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
