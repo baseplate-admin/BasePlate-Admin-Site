@@ -3,6 +3,11 @@ base_directory = "output"
 html_selector = "main"
 
 [[input.files]]
+path = "why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html"
+url = "https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html"
+title = "Why I chose django-ninja instead of django-rest-framework to build coreproject"
+
+[[input.files]]
 path = "how-i-added-daphne-server-dectection-to-wappalyzer.html"
 url = "https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html"
 title = "How I added daphne server dectection to wappalyzer"

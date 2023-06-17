@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<base href="https://baseplate-admin.github.io/blog/"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Pelican" name="generator"/>
+<!--Site Verification -->
+<meta content="1V8JvhKMWGfr6TWJehCv6E9IMDRcDFlTfrLSyvN1IQU" name="google-site-verification"/>
+<meta content="D6960B5563B917400B80A2119D695F17" name="msvalidate.01"/>
+<title>Why I chose django-ninja instead of django-rest-framework to build coreproject</title>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.3.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/stork.css" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/stork-dark.css" media="screen and (prefers-color-scheme: dark)" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/feeds/all.atom.xml" rel="alternate" title="Blog Atom Feed" type="application/atom+xml">
+<style>
+    .headerlink{
+      padding-left: .5rem;
+      opacity: 0;
+      text-decoration: none;
+    }
+    h1:hover > .headerlink {
+      opacity: 1;
+    }
+  </style>
+<meta content="django-ninja is a relatively new framework ( first commit was in July 21, 2020 ). So you might ask why would you use it instead of something like..." name="description"/>
+<script>
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark')
+                }
+        </script>
+<script type="module">
+                import flamethrower from 'https://cdn.jsdelivr.net/npm/flamethrower-router@0.0.0-meme.12/+esm'
+                const router = flamethrower({ prefetch: 'visible' });
+                window.router = router
+            </script>
+</link><link href="https://baseplate-admin.github.io/blog\why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blog", "item": "https://baseplate-admin.github.io/blog"}, {"@type": "ListItem", "position": 2, "name": "Why i chose django ninja instead of django rest framework to build coreproject", "item": "https://baseplate-admin.github.io/blog\\why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Baseplate-Admin"}, "publisher": {"@type": "Organization", "name": "Blog"}, "headline": "Why I chose <code>django-ninja</code> instead of <code>django-rest-framework</code> to build <code>coreproject</code>", "about": "Django", "datePublished": "2023-06-17 00:00"}</script></head>
+<body class="min-h-screen flex flex-col max-w-7xl lg:max-w-none text-zinc-800 bg-neutral-100 dark:bg-neutral-900 dark:text-zinc-300 container mx-auto justify-center md:px-3">
+<nav class="sm:flex sm:justify-between xl:ml-32 pl-4 items-center">
+<div class="flex pt-4">
+<h1 class="font-semibold text-2xl"><a href="https://baseplate-admin.github.io/blog/">Blog</a></h1>
+<button class="text-zinc-700 dark:text-zinc-400 rounded-full focus:outline-none text-sm ml-2 p-1" id="theme-toggle" type="button">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+<ul class="flex flex-wrap lg:mr-24 md:pt-0">
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/archives.html">Archive</a>
+</li>
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+</li>
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/tags.html">Tags</a>
+</li>
+<li class="mr-4 pt-6">
+<a data-cold="" href="https://baseplate-admin.github.io/blog/search.html">Search</a>
+</li>
+</ul>
+</nav>
+<div class="flex-grow md:max-w-screen-md md:mx-auto md:w-3/4 px-4">
+<nav aria-label="Breadcrumb" class="text-zinc-800 dark:text-zinc-300 mt-12 pb-2 md:mt-16">
+<ul class="p-0 inline-flex items-center">
+<li class="flex items-center">
+<a class="text-zinc-800 dark:text-zinc-300 inline-flex items-center" href="https://baseplate-admin.github.io/blog/">
+<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+</path>
+</svg>
+                                Home
+                            </a>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</li>
+<li class="flex items-center">
+<a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</li>
+<li class="flex items-center">
+<a href="https://baseplate-admin.github.io/blog/category/django.html">Django</a>
+</li>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</ul>
+</nav>
+<main>
+<header>
+<h1 class="font-semibold text-3xl my-2">Why I chose <code>django-ninja</code> instead of <code>django-rest-framework</code> to build <code>coreproject</code></h1>
+<footer class="flex text-sm text-zinc-800 dark:text-zinc-400">
+<div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+<time>June 17, 2023</time>
+<div>
+<span> · 10 min read</span>
+</div>
+<div>
+<span> · Baseplate-Admin</span>
+</div>
+</div>
+</footer>
+<div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+<span>Last updated: June 17, 2023</span>
+</div>
+</header>
+<details class="flex flex-col my-6 p-4 bg-zinc-200 dark:bg-zinc-800 rounded-lg">
+<summary class="text-lg font-bold">Table of contents</summary>
+<div class="mx-4 px-4 underline">
+<div id="toc"><ul><li><a class="toc-href" href="#django-rest-framework-is-slow" title="Django Rest framework is slow">Django Rest framework is slow</a></li><li><a class="toc-href" href="#django-rest-framework-lacks-proper-typing" title="Django Rest Framework lacks proper typing">Django Rest Framework lacks proper typing</a></li><li><a class="toc-href" href="#django-rest-framework-lacks-proper-swagger-support" title="Django Rest Framework lacks proper Swagger Support">Django Rest Framework lacks proper Swagger Support</a></li><li><a class="toc-href" href="#django-rest-frameworks-magic" magic'="" s="" title="Django rest framework">Django rest framework's magic</a></li><li><a class="toc-href" href="#django-rest-frameworks-lack-of-maintaince" lack="" maintaince'="" of="" s="" title="Django Rest Framework">Django Rest Framework's lack of maintaince</a></li><li><a class="toc-href" href="#introducing-django-ninja" title="Introducing django-ninja">Introducing django-ninja</a></li><li><a class="toc-href" href="#the-devil-is-in-the-details" title="The devil is in the details">The devil is in the details</a></li><li><a class="toc-href" href="#conclusion" title="Conclusion">Conclusion</a></li></ul></div>
+</div>
+</details>
+<div class="max-w-7xl container mx-auto my-8 text-zinc-800 dark:text-zinc-300 prose lg:max-w-none prose-headings:text-zinc-800 prose-headings:dark:text-zinc-300 prose-h1:text-3xl lg:prose-h1:text-3xl prose-headings:font-semibold prose-pre:bg-zinc-200 prose-pre:text-zinc-800 dark:prose-pre:bg-zinc-800 dark:prose-pre:text-zinc-200 prose-blockquote:text-zinc-800 dark:prose-blockquote:text-zinc-200 prose-a:text-gray-500 dark:prose-a:text-gray-400 dark:prose-strong:text-zinc-200 dark:prose-code:text-zinc-200 dark:prose-code:bg-zinc-800 prose-code:bg-zinc-200 prose-code:font-light prose-img:rounded-md">
+<p><code>django-ninja</code> is a relatively new framework ( <a href="https://github.com/vitalik/django-ninja/commit/1b79e8de644aef247e0456daa3b566db70fe1c07">first commit was in July 21, 2020</a> ). So you might ask why would you use it instead of something like <code>django-rest-framework</code> ( whose first commit was all the way back in <a href="https://github.com/vitormazzi/django-rest-framework/commit/650111dc8c0800e5b7d4c878c1d454657b68efca">Dec 30,2011</a> ). Well I am glad that you asked this question. Let's talk about it.</p>
+<h1 id="django-rest-framework-is-slow">Django Rest framework is slow<a class="headerlink" href="#django-rest-framework-is-slow" title="Permanent link">¶</a></h1>
+<p><code>django-rest-framework</code> is slow. Period. It's almost 2x-3x slower than <code>django-ninja</code>.</p>
+<p>Why is this the case?</p>
+<p><code>django-rest-framework</code> does a whole lot of things under the hood. There are <a href="https://hakibenita.com/django-rest-framework-slow">articles</a> explaining how to improve things ( specially with serializers ) with <code>django-rest-framework</code> but I am have not invested enough time to understand why <code>django-rest-framework</code> is slow.</p>
+<p>To me ( an average developer developing his hobby project ) serialization should be fast. I shouldn't have to invest time into a project and realize that, "Oh shit. I fucked up while picking a good stack. Alright, buckle up, Sherlock! It's time to put on your detective hat, grab your magnifying glass, and embark on a whimsically peculiar investigation."</p>
+<h1 id="django-rest-framework-lacks-proper-typing">Django Rest Framework lacks proper typing<a class="headerlink" href="#django-rest-framework-lacks-proper-typing" title="Permanent link">¶</a></h1>
+<p>While there's pacakges like <a href="https://pypi.org/project/djangorestframework-stubs/"><code>djangorestframework-stubs</code></a>, <code>drf</code> was born in a time when there was a major transition between Python 2 to 3. There was no concept of a strongly typed python ( let alone <code>mypy</code> ).</p>
+<p>So the typing implementation for <code>django-rest-framework</code> often feels hacky and glued onto. Not to mention that <code>djangorestframework-stubs</code> is an unofficial packages.</p>
+<p>While the maintainers of <code>djangorestframework-stubs</code> is undoubtly talented, their implementation is not fixing the dumpster fire that is <code>django-rest-framework</code> and not all the projects are using typed python ( which they should to catch bugs before runtime ).</p>
+<h1 id="django-rest-framework-lacks-proper-swagger-support">Django Rest Framework lacks proper Swagger Support<a class="headerlink" href="#django-rest-framework-lacks-proper-swagger-support" title="Permanent link">¶</a></h1>
+<p>When <code>django-rest-framework</code> was being actively worked on, tomchristie had another project named <a href="https://www.coreapi.org/"><code>coreapi</code></a>. <a href="https://www.django-rest-framework.org/coreapi/"><code>django-rest-framework</code> used to have first class support for <code>coreapi</code></a>. But @tomchristie's <code>coreapi</code> project never gained traction and <a href="https://github.com/encode/django-rest-framework/pull/7519"><code>coreapi</code> was eventually deprecated</a>.</p>
+<p>You might ask why is this a big deal? Due to focusing effort on <code>coreapi</code>, <code>django-rest-framework</code> never got the same amount of love for <code>swagger</code> ( the de-facto openapi Swagger-compliant API ). Instead they made their own api renderer ( which is very very hard to customize properly due to how complex the autogenaration features are )</p>
+<p>There are projects like <a href="https://github.com/tfranzel/drf-spectacular"><code>drf-spectacular</code></a> but it often requires extra effort on the developers part ( emphasizing my previous point about typing ), to achieve the functionality ( specially with <code>@extend_schema</code> decorator ). This implementation often feels lackluster comapred to competition.</p>
+<h1 id="django-rest-frameworks-magic">Django rest framework's magic<a class="headerlink" href="#django-rest-frameworks-magic" title="Permanent link">¶</a></h1>
+<p><code>django-rest-framework</code> has a lot of ways to achieve similiar functionality. Why should this be the case. There should be one way and one right way to achieve things ( look at <code>perl</code>. <code>perl</code> thought it would be nice for everyone to have a different way to achieve same functionality. Fast forward 10 years, nobody wants to touch that unholy mess ). Look at this diagram below ( shout out to <a href="https://testdriven.io/blog/drf-views-part-1/">testdriven.io blog</a>. You guys did a phenomenal job explaining things. ).</p>
+<p><img alt="DRF diagram" lass="image-center" src="https://baseplate-admin.github.io/blog/images/Why I chose django-ninja instead of django-rest-framework to build coreproject/drf_views_overview.png"/>
+<img alt="DRF diagram 2" lass="image-center" src="https://baseplate-admin.github.io/blog/images/Why I chose django-ninja instead of django-rest-framework to build coreproject/generic_views.png"/></p>
+<p>I as a simple developer should not have to memorize when to use what and as a paid developer shouldn't have to worry about those who preceeded me did a good job architecting the web application.</p>
+<p>Then there are <a href="https://www.django-rest-framework.org/api-guide/generic-views/#concrete-view-classes">concrete-view-classes</a> ( I hate it ). There are countless classes ( <a href="https://github.com/encode/django-rest-framework/blob/9cfa4bd7cca19df0bc8e456d906c3ab7ce285cf4/rest_framework/generics.py#L188-L295">which are just mixins added to GenericAPIView</a> ) added to base class. I mean whats the point? If you want people to mix and match. Just tell them to add mixins. Why are you making asumptions and making 10's ( well actually 9 ) of classes. God this irritates me so much. Wrapping your head around all these is a pain.</p>
+<h1 id="django-rest-frameworks-lack-of-maintaince">Django Rest Framework's lack of maintaince<a class="headerlink" href="#django-rest-frameworks-lack-of-maintaince" title="Permanent link">¶</a></h1>
+<p>All the above problems could have been overlooked if <code>django-rest-framework</code> was maintained properly. At the time of writing developement has recently been resumed after a long long haitus. <a href="https://github.com/encode/django-rest-framework/discussions/8110#discussioncomment-1120770">Tom Christie's comment about things make it look bitter</a>.</p>
+<p>I am shocked at this specific comment :</p>
+<blockquote>
+ Otherwise we should be considering the project feature-complete.
+</blockquote>
+<p>No way a project that is at the scale of <code>django-rest-framwork</code> is feature complete.</p>
+<p>Why did I say this ?</p>
+<ol>
+<li><code>django-rest-framework</code> has no way to implement nested routing. Sure this could be achieved using <code>drf-nested-router</code>, but i have been disappointed at the project. Since a lot of people tend to use it but finds no good example repsitory ( or at least i didn't know how to find one ). <a href="https://github.com/alanjds/drf-nested-routers/issues/285">I have even raised an issue requesting this functionality</a></li>
+<li><code>django-rest-framework</code> had over 200 open issues and pull requests ( they silence old issues with stale bot instead of properly addressing the issues at hand )</li>
+<li><a href="https://github.com/encode/django-rest-framework/blob/9cfa4bd7cca19df0bc8e456d906c3ab7ce285cf4/rest_framework/static/rest_framework/js/bootstrap.min.js#L2"><code>django-rest-framework</code>'s <code>bootstrap</code> version is stuck at version 3</a> <a href="https://github.com/twbs/bootstrap/commits/v3.4.1">which was last updated at Feb 13,2019</a> which was about about 2 years ago since <a href="https://github.com/encode/django-rest-framework/discussions/8110#discussioncomment-1120770"><code>Tom Christie</code>'s comment</a>. A feature complete library shouldn't have old dependencies. <a href="https://github.com/encode/django-rest-framework/pull/7411">There's ongoing effort to move to bootstrap 5</a> but it's been stale for over 2 years. I have proposed <a href="https://github.com/encode/django-rest-framework/pull/7411#issuecomment-1493374681">making custom css</a> ( which should make it feature complete ) but i don't think it will ever be implemented.</li>
+</ol>
+<p>Thing like <code>django-rest-framework</code> is the reason ( to me atleast ) is why django is not seeing significant market share. <code>django-rest-framework</code> is a relic of old era. It's time to move on to the next big thing in <code>django</code> ecosystem. That's <code>django-ninja</code>.</p>
+<h1 id="introducing-django-ninja">Introducing <code>django-ninja</code><a class="headerlink" href="#introducing-django-ninja" title="Permanent link">¶</a></h1>
+<p><code>django-ninja</code>. Behold, a novel framework emerges as a shining beacon of salvation amidst the profound obscurity that envelops our current era. <code>django-ninja</code> gives us one and only one way to do things. So we are guranteed that projects developed using <code>django-ninja</code> follows a pattern.</p>
+<p>Due to how <code>django-ninja</code> is developed, it emphasizes strongly on typed codebases. Which leads to good documentation along with good mypy error catching.</p>
+<p>But <code>django-ninja</code> is not the silver bullet to every problem. It solves a set of problem but brings it's own set of problems.</p>
+<h1 id="the-devil-is-in-the-details">The devil is in the details<a class="headerlink" href="#the-devil-is-in-the-details" title="Permanent link">¶</a></h1>
+<ul>
+<li>While <code>django-ninja</code> is based on very good architecture, it suffers from the <a href="https://news.ycombinator.com/item?id=29471609">fastapi problem</a>. Which is there's one guy ( <a href="https://github.com/vitalik/">@vitalik</a> ) doing everything. This exacerbates the vast number of open issues and PR's.</li>
+<li>Then there's the lack of ecosystem around <code>django-ninja</code>. <a href="https://github.com/encode/django-rest-framework/network/dependents?dependent_type=PACKAGE">The sheer amount of packages made for <code>django-rest-framework</code> is mind boggling</a> <a href="https://github.com/vitalik/django-ninja/network/dependents?dependent_type=PACKAGE">compared to measly 10-20 packages for <code>django-ninja</code></a>. I am confident this landscape will change in the next 10-20 years.</li>
+<li>By design, <code>django-ninja</code>'s name resolution is tied to import order ( I haven't come across any use case that is affected by this but <a href="https://github.com/encode/django-rest-framework/discussions/8917#discussioncomment-5473287">a django maintainer is not a fan of this</a> )</li>
+<li>
+<p>Along with this, <code>django-ninja</code> codes ( like <code>fastapi</code> ) can be overly verbose. ( which can be a good or bad thing depending on perspective )</p>
+<p>Let's take an example of <a href="https://github.com/baseplate-admin/CoreProject/blob/35919b9b27b984931e3e59e4eae76e62ce5d089a/backend/django_core/apps/api/views/anime/__init__.py#L32-L121">my code</a> :</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">AnimeInfoGETSchema</span><span class="p">])</span>
+<span class="nd">@paginate</span>
+<span class="k">def</span> <span class="nf">get_anime_info</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">AnimeInfoFilters</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuerySet</span><span class="p">[</span><span class="n">AnimeModel</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_POSTGRES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Http404</span><span class="p">(</span><span class="s2">"Looksups are not supported on any other databases except Postgres"</span><span class="p">)</span>
+
+    <span class="n">query_dict</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">query_object</span> <span class="o">=</span> <span class="n">Q</span><span class="p">()</span>
+    <span class="c1"># 2 Step get query</span>
+    <span class="c1"># There wont be a performance hit if we do all().filter()</span>
+    <span class="c1"># https://docs.djangoproject.com/en/4.0/topics/db/queries/#retrieving-specific-objects-with-filters</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">AnimeModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c1"># We must pop this to filter other fields on the later stage</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">:=</span> <span class="n">query_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">query</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                <span class="n">similiarity</span><span class="o">=</span><span class="n">Greatest</span><span class="p">(</span>
+                    <span class="n">TrigramSimilarity</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                    <span class="n">TrigramSimilarity</span><span class="p">(</span><span class="s2">"name_japanese"</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                    <span class="n">TrigramSimilarity</span><span class="p">(</span><span class="s2">"name_synonyms__name"</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">similiarity__gte</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">"-similiarity"</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Same here but with ids</span>
+    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">"mal_id"</span><span class="p">,</span>
+        <span class="s2">"kitsu_id"</span><span class="p">,</span>
+        <span class="s2">"anilist_id"</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">:=</span> <span class="n">query_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">_query_</span> <span class="o">=</span> <span class="n">Q</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">):</span>
+                <span class="n">_query_</span> <span class="o">|=</span> <span class="n">Q</span><span class="p">(</span>
+                    <span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">strip</span><span class="p">())},</span>
+                <span class="p">)</span>
+            <span class="n">query_object</span> <span class="o">&amp;=</span> <span class="n">_query_</span>
+
+    <span class="c1"># Staff lookups</span>
+    <span class="k">if</span> <span class="n">staff</span> <span class="o">:=</span> <span class="n">query_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"staffs"</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">staff</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">):</span>
+            <span class="n">_query_</span> <span class="o">&amp;=</span> <span class="p">(</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">staff__name__icontains</span><span class="o">=</span><span class="n">position</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="o">|</span> <span class="n">Q</span><span class="p">(</span>
+                    <span class="n">staff__alternate_names__name__icontains</span><span class="o">=</span><span class="n">position</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                <span class="p">)</span>
+                <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">staff__family_name__icontains</span><span class="o">=</span><span class="n">position</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">staff__family_name__icontains</span><span class="o">=</span><span class="n">position</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="p">)</span>
+            <span class="n">query_object</span> <span class="o">&amp;=</span> <span class="n">_query_</span>
+
+    <span class="c1"># Many to many lookups</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">"genres"</span><span class="p">,</span>
+        <span class="s2">"themes"</span><span class="p">,</span>
+        <span class="s2">"studios"</span><span class="p">,</span>
+        <span class="s2">"producers"</span><span class="p">,</span>
+        <span class="s2">"characters"</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">:=</span> <span class="n">query_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">_query_</span> <span class="o">=</span> <span class="n">Q</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">):</span>
+                <span class="n">_query_</span> <span class="o">&amp;=</span> <span class="n">Q</span><span class="p">(</span>
+                    <span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">__name__icontains"</span><span class="p">:</span> <span class="n">position</span><span class="o">.</span><span class="n">strip</span><span class="p">()},</span>
+                <span class="p">)</span>
+            <span class="n">query_object</span> <span class="o">&amp;=</span> <span class="n">_query_</span>
+
+    <span class="c1"># This can be (AND: )</span>
+    <span class="c1"># This means it is empty</span>
+
+    <span class="k">if</span> <span class="n">query_object</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">query_object</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Http404</span><span class="p">(</span>
+            <span class="s2">"No </span><span class="si">{}</span><span class="s2"> matches the given query with </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">query</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">object_name</span><span class="p">,</span>
+                <span class="n">query_object</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">query</span>
+</code></pre></div>
+<p><sub> See how long ( and complicated ) can a simple ( well not actually simple but detailed ) lookup function be ?</sub></p>
+<h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h1>
+<p>There's no good solution to building rest api's with <code>django</code>. While <code>django-rest-framework</code> gives us multiple ways to achieve this functionality, it suffers from "there's more than one way to achieve same thing" and <code>django-ninja</code> suffers from "New kid on the block" problem.</p>
+<p>Solving these type of problem is the key to getting more marketshare for <code>django</code>. Otherwise new frameworks like <code>fastapi</code> ( which inspired <code>starlite</code> which became <code>litestar</code> ) will flood the pypi registry and we will have new frameworks poping in left and right ( much like how people that were fed up with <code>react</code> wrote <code>preact</code> and now another project <a href="https://github.com/aidenybai/million"><code>million</code></a> is there to solve the problem both <code>react</code> and <code>preact</code> are solving ).</p>
+<p>While <code>django-ninja</code> is not the silver bullet that solves every problem, it gives developers very strong base to build and extend upon. That's the main reason I chose <code>django-ninja</code> in hopes that it will take over <code>django-rest-framework</code> to become the de-facto way of building rest api's with <code>django</code></p>
+<!-- <div class="aspect-w-16 aspect-h-9 mx-auto"></div> CSS placeholder -->
+</div>
+<footer class="flex flex-col mt-10">
+<ul class="flex flex-wrap">
+<a href="https://baseplate-admin.github.io/blog/tag/coreproject.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Coreproject
+            </li>
+</a>
+<a href="https://baseplate-admin.github.io/blog/tag/django.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Django
+            </li>
+</a>
+<a href="https://baseplate-admin.github.io/blog/tag/django-ninja.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              django-ninja
+            </li>
+</a>
+</ul>
+<div class="flex w-full my-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg">
+<div class="w-1/2 rounded-l-lg"></div>
+<div class="w-1/2 hover:bg-zinc-300 dark:hover:bg-zinc-800 rounded-r-lg">
+<a class="flex flex-col" href="https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html">
+<div class="text-right mx-4 py-2">
+<p class="text-zinc-500 dark:text-neutral-400 text-sm">NEXT PAGE »</p>
+<p class="text-right py-1 hover:underline">How I added <code>daphne</code> server dectection to <code>wappalyzer</code></p>
+</div>
+</a>
+</div>
+</div>
+<div class="flex bg-zinc-200 dark:bg-zinc-700 py-2 rounded-lg justify-center space-x-2 text-xs">
+<ul>
+<a aria-label="share Features on facebook" href="https://facebook.com/sharer/sharer.php?u=https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="noopener noreferrer" target="_blank" title="facebook">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-facebook fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="noopener noreferrer" target="_blank" title="linkedin">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-linkedin fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on reddit" href="https://reddit.com/submit?url=https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="noopener noreferrer" target="_blank" title="reddit">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-reddit fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on telegram" href="https://telegram.me/share/url?text=Features&amp;url=https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="noopener noreferrer" target="_blank" title="telegram">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-telegram fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on twitter" href="https://twitter.com/intent/tweet/?text=Features&amp;url=https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="noopener noreferrer" target="_blank" title="twitter">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-twitter fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on whatsapp" href="https://api.whatsapp.com/send?text=Features - https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html" rel="noopener noreferrer" target="_blank" title="whatsapp">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-whatsapp fa-2x"></i>
+</li>
+</a>
+</ul>
+</div>
+</footer>
+<div>
+</div>
+</main>
+</div>
+<footer class="flex w-full text-xs justify-center mt-10 mb-6 text-zinc-500 dark:text-zinc-400">
+<div class="px-4">
+<span>©2023 • </span>Powered by
+                <a class="underline" href="https://getpelican.com/">Pelican</a> &amp;
+                <a class="underline" href="https://github.com/aleylara/Papyrus">Papyrus</a>
+</div>
+</footer>
+<script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] =
+                c[a] ||
+            function () {
+                (c[a].q = c[a].q || []).push(arguments);
+            };
+            t = l.createElement(r);
+            t.async = 1;
+            t.src = 'https://www.clarity.ms/tag/' + i;
+            y = l.getElementsByTagName(r)[0];
+            y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'fyrg8w1vbe');
+    </script>
+<script>
+            (()=>{
+                let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+                let themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+                if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                    '(prefers-color-scheme: dark)').matches)) {
+                        themeToggleLightIcon.classList.remove('hidden');
+                    } else {
+                        themeToggleDarkIcon.classList.remove('hidden');
+                    }
+                let themeToggleBtn = document.getElementById('theme-toggle');
+                themeToggleBtn.addEventListener('click', function () {
+                    themeToggleDarkIcon.classList.toggle('hidden');
+                    themeToggleLightIcon.classList.toggle('hidden');
+                    if (localStorage.getItem('color-theme')) {
+                        if (localStorage.getItem('color-theme') === 'light') {
+                            document.documentElement.classList.add('dark');
+                            localStorage.setItem('color-theme', 'dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.setItem('color-theme', 'light');
+                        }
+                    } else {
+                        if (document.documentElement.classList.contains('dark')) {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.setItem('color-theme', 'light');
+                        } else {
+                            document.documentElement.classList.add('dark');
+                            localStorage.setItem('color-theme', 'dark');
+                        }
+                    }
+                });
+            })()
+        </script>
+</body>
+</html>
