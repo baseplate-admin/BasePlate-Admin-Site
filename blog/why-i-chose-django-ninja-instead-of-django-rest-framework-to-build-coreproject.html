@@ -114,7 +114,7 @@
 </div>
 </footer>
 <div class="flex text-xs text-zinc-800 dark:text-zinc-400">
-<span>Last updated: June 17, 2023</span>
+<span>Last updated: June 19, 2023</span>
 </div>
 </header>
 <details class="flex flex-col my-6 p-4 bg-zinc-200 dark:bg-zinc-800 rounded-lg">
@@ -127,7 +127,6 @@
 <p><code>django-ninja</code> is a relatively new framework ( <a href="https://github.com/vitalik/django-ninja/commit/1b79e8de644aef247e0456daa3b566db70fe1c07">first commit was in July 21, 2020</a> ). So you might ask why would you use it instead of something like <code>django-rest-framework</code> ( whose first commit was all the way back in <a href="https://github.com/vitormazzi/django-rest-framework/commit/650111dc8c0800e5b7d4c878c1d454657b68efca">Dec 30,2011</a> ). Well I am glad that you asked this question. Let's talk about it.</p>
 <h1 id="django-rest-framework-is-slow">Django Rest framework is slow<a class="headerlink" href="#django-rest-framework-is-slow" title="Permanent link">¶</a></h1>
 <p><code>django-rest-framework</code> is slow. Period. It's almost 2x-3x slower than <code>django-ninja</code>.</p>
-<p>Why is this the case?</p>
 <p><code>django-rest-framework</code> does a whole lot of things under the hood. There are <a href="https://hakibenita.com/django-rest-framework-slow">articles</a> explaining how to improve things ( specially with serializers ) with <code>django-rest-framework</code> but I am have not invested enough time to understand why <code>django-rest-framework</code> is slow.</p>
 <p>To me ( an average developer developing his hobby project ) serialization should be fast. I shouldn't have to invest time into a project and realize that, "Oh shit. I fucked up while picking a good stack. Alright, buckle up, Sherlock! It's time to put on your detective hat, grab your magnifying glass, and embark on a whimsically peculiar investigation."</p>
 <h1 id="django-rest-framework-lacks-proper-typing">Django Rest Framework lacks proper typing<a class="headerlink" href="#django-rest-framework-lacks-proper-typing" title="Permanent link">¶</a></h1>
@@ -142,8 +141,9 @@
 <p><code>django-rest-framework</code> has a lot of ways to achieve similiar functionality. Why should this be the case. There should be one way and one right way to achieve things ( look at <code>perl</code>. <code>perl</code> thought it would be nice for everyone to have a different way to achieve same functionality. Fast forward 10 years, nobody wants to touch that unholy mess ). Look at this diagram below ( shout out to <a href="https://testdriven.io/blog/drf-views-part-1/">testdriven.io blog</a>. You guys did a phenomenal job explaining things. ).</p>
 <p><img alt="DRF diagram" lass="image-center" src="https://baseplate-admin.github.io/blog/images/Why I chose django-ninja instead of django-rest-framework to build coreproject/drf_views_overview.png"/>
 <img alt="DRF diagram 2" lass="image-center" src="https://baseplate-admin.github.io/blog/images/Why I chose django-ninja instead of django-rest-framework to build coreproject/generic_views.png"/></p>
+<p><center><sub> Image credit : <a href="https://testdriven.io/blog/drf-views-part-1/">testdriven.io</a> </sub></center></p>
 <p>I as a simple developer should not have to memorize when to use what and as a paid developer shouldn't have to worry about those who preceeded me did a good job architecting the web application.</p>
-<p>Then there are <a href="https://www.django-rest-framework.org/api-guide/generic-views/#concrete-view-classes">concrete-view-classes</a> ( I hate it ). There are countless classes ( <a href="https://github.com/encode/django-rest-framework/blob/9cfa4bd7cca19df0bc8e456d906c3ab7ce285cf4/rest_framework/generics.py#L188-L295">which are just mixins added to GenericAPIView</a> ) added to base class. I mean whats the point? If you want people to mix and match. Just tell them to add mixins. Why are you making asumptions and making 10's ( well actually 9 ) of classes. God this irritates me so much. Wrapping your head around all these is a pain.</p>
+<p>Then there are <a href="https://www.django-rest-framework.org/api-guide/generic-views/#concrete-view-classes">concrete-view-classes</a> ( I hate it ). There are countless classes ( <a href="https://github.com/encode/django-rest-framework/blob/9cfa4bd7cca19df0bc8e456d906c3ab7ce285cf4/rest_framework/generics.py#L188-L295">which are just mixins</a> ) added to <a href="https://github.com/encode/django-rest-framework/blob/9cfa4bd7cca19df0bc8e456d906c3ab7ce285cf4/rest_framework/generics.py#L24">GenericAPIView</a> class. I mean whats the point? If you want people to mix and match. Just tell them to add mixins. Why are you making asumptions and making 10's ( well actually 9 ) of classes. God this irritates me so much. Wrapping your head around all these is a pain.</p>
 <h1 id="django-rest-frameworks-lack-of-maintaince">Django Rest Framework's lack of maintaince<a class="headerlink" href="#django-rest-frameworks-lack-of-maintaince" title="Permanent link">¶</a></h1>
 <p>All the above problems could have been overlooked if <code>django-rest-framework</code> was maintained properly. At the time of writing developement has recently been resumed after a long long haitus. <a href="https://github.com/encode/django-rest-framework/discussions/8110#discussioncomment-1120770">Tom Christie's comment about things make it look bitter</a>.</p>
 <p>I am shocked at this specific comment :</p>
@@ -266,7 +266,7 @@
 <p><sub> See how long ( and complicated ) can a simple ( well not actually simple but detailed ) lookup function be ?</sub></p>
 <h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h1>
 <p>There's no good solution to building rest api's with <code>django</code>. While <code>django-rest-framework</code> gives us multiple ways to achieve this functionality, it suffers from "there's more than one way to achieve same thing" and <code>django-ninja</code> suffers from "New kid on the block" problem.</p>
-<p>Solving these type of problem is the key to getting more marketshare for <code>django</code>. Otherwise new frameworks like <code>fastapi</code> ( which inspired <code>starlite</code> which became <code>litestar</code> ) will flood the pypi registry and we will have new frameworks poping in left and right ( much like how people that were fed up with <code>react</code> wrote <code>preact</code> and now another project <a href="https://github.com/aidenybai/million"><code>million</code></a> is there to solve the problem both <code>react</code> and <code>preact</code> are solving ).</p>
+<p>Solving these type of problem is the key to getting more marketshare for <code>django</code>. Otherwise new frameworks like <code>fastapi</code> ( which inspired <a href="https://github.com/starlite-api/starlite"><code>starlite</code></a> which became <a href="https://github.com/litestar-org/litestar"><code>litestar</code></a> | You can find the creator's reasoning in this <a href="https://www.reddit.com/r/Python/comments/s0jgou/starlite_the_little_api_framework_that_can/">reddit post</a> and this <a href="https://itnext.io/introducing-starlite-3928adaa19ae">medium article</a> ) will flood the pypi registry and we will have new frameworks poping in left and right ( much like how people that were fed up with <code>react</code> wrote <code>preact</code> and now another project <a href="https://github.com/aidenybai/million"><code>million</code></a> is there to solve the problem both <code>react</code> and <code>preact</code> are solving ).</p>
 <p>While <code>django-ninja</code> is not the silver bullet that solves every problem, it gives developers very strong base to build and extend upon. That's the main reason I chose <code>django-ninja</code> in hopes that it will take over <code>django-rest-framework</code> to become the de-facto way of building rest api's with <code>django</code></p>
 <!-- <div class="aspect-w-16 aspect-h-9 mx-auto"></div> CSS placeholder -->
 </div>
@@ -291,10 +291,10 @@
 <div class="flex w-full my-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg">
 <div class="w-1/2 rounded-l-lg"></div>
 <div class="w-1/2 hover:bg-zinc-300 dark:hover:bg-zinc-800 rounded-r-lg">
-<a class="flex flex-col" href="https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html">
+<a class="flex flex-col" href="https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html">
 <div class="text-right mx-4 py-2">
 <p class="text-zinc-500 dark:text-neutral-400 text-sm">NEXT PAGE »</p>
-<p class="text-right py-1 hover:underline">How I added <code>daphne</code> server dectection to <code>wappalyzer</code></p>
+<p class="text-right py-1 hover:underline">How I recreated <code>svelte</code> <code>blur</code> effect using <code>alpinejs</code> and <code>tailwind.css</code></p>
 </div>
 </a>
 </div>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<base href="https://baseplate-admin.github.io/blog/"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Pelican" name="generator"/>
+<!--Site Verification -->
+<meta content="1V8JvhKMWGfr6TWJehCv6E9IMDRcDFlTfrLSyvN1IQU" name="google-site-verification"/>
+<meta content="D6960B5563B917400B80A2119D695F17" name="msvalidate.01"/>
+<title>How I recreated svelte blur effect using alpinejs and tailwind.css</title>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.3.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/pygment.css" rel="stylesheet" type="text/css"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/stork.css" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/theme/css/stork-dark.css" media="screen and (prefers-color-scheme: dark)" rel="stylesheet"/>
+<link href="https://baseplate-admin.github.io/blog/feeds/all.atom.xml" rel="alternate" title="Blog Atom Feed" type="application/atom+xml">
+<style>
+    .headerlink{
+      padding-left: .5rem;
+      opacity: 0;
+      text-decoration: none;
+    }
+    h1:hover > .headerlink {
+      opacity: 1;
+    }
+  </style>
+<meta content="It's not a surprise that both svelte and alpine.js are both popular framework. It's no surprise that both framework has some quirks up it's..." name="description"/>
+<script>
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark')
+                }
+        </script>
+<script type="module">
+                import flamethrower from 'https://cdn.jsdelivr.net/npm/flamethrower-router@0.0.0-meme.12/+esm'
+                const router = flamethrower({ prefetch: 'visible' });
+                window.router = router
+            </script>
+</link><link href="https://baseplate-admin.github.io/blog\how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blog", "item": "https://baseplate-admin.github.io/blog"}, {"@type": "ListItem", "position": 2, "name": "How i recreated svelte blur effect using alpinejs and tailwindcss", "item": "https://baseplate-admin.github.io/blog\\how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Baseplate-Admin"}, "publisher": {"@type": "Organization", "name": "Blog"}, "headline": "How I recreated <code>svelte</code> <code>blur</code> effect using <code>alpinejs</code> and <code>tailwind.css</code>", "about": "alpine.js", "datePublished": "2023-02-24 00:00"}</script></head>
+<body class="min-h-screen flex flex-col max-w-7xl lg:max-w-none text-zinc-800 bg-neutral-100 dark:bg-neutral-900 dark:text-zinc-300 container mx-auto justify-center md:px-3">
+<nav class="sm:flex sm:justify-between xl:ml-32 pl-4 items-center">
+<div class="flex pt-4">
+<h1 class="font-semibold text-2xl"><a href="https://baseplate-admin.github.io/blog/">Blog</a></h1>
+<button class="text-zinc-700 dark:text-zinc-400 rounded-full focus:outline-none text-sm ml-2 p-1" id="theme-toggle" type="button">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+<ul class="flex flex-wrap lg:mr-24 md:pt-0">
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/archives.html">Archive</a>
+</li>
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+</li>
+<li class="mr-4 pt-6">
+<a href="https://baseplate-admin.github.io/blog/tags.html">Tags</a>
+</li>
+<li class="mr-4 pt-6">
+<a data-cold="" href="https://baseplate-admin.github.io/blog/search.html">Search</a>
+</li>
+</ul>
+</nav>
+<div class="flex-grow md:max-w-screen-md md:mx-auto md:w-3/4 px-4">
+<nav aria-label="Breadcrumb" class="text-zinc-800 dark:text-zinc-300 mt-12 pb-2 md:mt-16">
+<ul class="p-0 inline-flex items-center">
+<li class="flex items-center">
+<a class="text-zinc-800 dark:text-zinc-300 inline-flex items-center" href="https://baseplate-admin.github.io/blog/">
+<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+</path>
+</svg>
+                                Home
+                            </a>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</li>
+<li class="flex items-center">
+<a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</li>
+<li class="flex items-center">
+<a href="https://baseplate-admin.github.io/blog/category/alpinejs.html">alpine.js</a>
+</li>
+<svg class="fill-current w-3 h-3 mr-2 ml-1" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+</svg>
+</ul>
+</nav>
+<main>
+<header>
+<h1 class="font-semibold text-3xl my-2">How I recreated <code>svelte</code> <code>blur</code> effect using <code>alpinejs</code> and <code>tailwind.css</code></h1>
+<footer class="flex text-sm text-zinc-800 dark:text-zinc-400">
+<div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+<time>February 24, 2023</time>
+<div>
+<span> · 14 min read</span>
+</div>
+<div>
+<span> · Baseplate-Admin</span>
+</div>
+</div>
+</footer>
+<div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+<span>Last updated: June 19, 2023</span>
+</div>
+</header>
+<details class="flex flex-col my-6 p-4 bg-zinc-200 dark:bg-zinc-800 rounded-lg">
+<summary class="text-lg font-bold">Table of contents</summary>
+<div class="mx-4 px-4 underline">
+<div id="toc"><ul><li><a class="toc-href" href="#how-to-replicate-the-transition-using-alpinejs" title="How to replicate the transition using alpine.js">How to replicate the transition using alpine.js</a></li><li><a class="toc-href" href="#how-did-we-mimic-the-svelte-transition-with-alpinejs" title="How did we mimic the svelte transition with alpine.js">How did we mimic the svelte transition with alpine.js</a></li><li><a class="toc-href" href="#how-does-svelte-handle-tranisiton" title="How does svelte handle tranisiton">How does svelte handle tranisiton</a></li><li><a class="toc-href" href="#conclusion" title="Conclusion">Conclusion</a></li></ul></div>
+</div>
+</details>
+<div class="max-w-7xl container mx-auto my-8 text-zinc-800 dark:text-zinc-300 prose lg:max-w-none prose-headings:text-zinc-800 prose-headings:dark:text-zinc-300 prose-h1:text-3xl lg:prose-h1:text-3xl prose-headings:font-semibold prose-pre:bg-zinc-200 prose-pre:text-zinc-800 dark:prose-pre:bg-zinc-800 dark:prose-pre:text-zinc-200 prose-blockquote:text-zinc-800 dark:prose-blockquote:text-zinc-200 prose-a:text-gray-500 dark:prose-a:text-gray-400 dark:prose-strong:text-zinc-200 dark:prose-code:text-zinc-200 dark:prose-code:bg-zinc-800 prose-code:bg-zinc-200 prose-code:font-light prose-img:rounded-md">
+<p>It's not a surprise that both <code>svelte</code> and <code>alpine.js</code> are both popular framework. It's no surprise that both framework has some quirks up it's sleeve.</p>
+<ul>
+<li><code>svelte</code> offers a lightweight framework ( which can suffice even the most complex of features ) which adds syntactic sugar to make the developer's job easier.</li>
+<li><code>alpine</code> is a rugged, minimal tool for composing behavior directly in your markup. It adds some html directives to supercharge a MPA ( multi page application ).</li>
+</ul>
+<p>We want to be greedy and get harness both of their features. More specifically we want to imitate awesome <a href="https://svelte.dev/docs#run-time-svelte-transition-blur"><code>blur</code> tranistion from <code>svelte</code></a> into an <code>alpine.js</code> powered application.</p>
+<p>This article requires you to have basic knowledge of <code>alpine.js</code> and <code>tailwindcss</code>. Essentially the article assums that you are already familiar with basics of <code>alpine.js</code> and <code>tailwindcss</code>.</p>
+<p>Now that we have that out of the way, let's get started.</p>
+<h1 id="how-to-replicate-the-transition-using-alpinejs">How to replicate the transition using <code>alpine.js</code><a class="headerlink" href="#how-to-replicate-the-transition-using-alpinejs" title="Permanent link">¶</a></h1>
+<p>Essentially by reverse engineering a svelte powered website ( in our case a custom repl ) we can recreate what <code>svelte</code> is doing ( <a href="https://www.youtube.com/watch?v=rXuHGLzSmSE">fireship has a great video on how to reverse engineer css</a> ).</p>
+<p>Here's the <code>html</code> ( note that we are using <a href="https://tailwindcss.com/"><code>tailwind</code></a> ) that can be used to emulate ( or closely simulate ) the <code>svelte</code> transition ( here's the <a href="https://github.com/baseplate-admin/CoreProject/blob/db9cececeda551e13a181cd270220c7f8f2871f8/backend/django_core/templates/user/base.html#L69">original github source for this html</a> ) :</p>
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="nv">div</span>
+<span class="w">    </span><span class="nv">class</span><span class="o">=</span><span class="s2">"transition-all duration-400 ease-in-out"</span>
+<span class="w">    </span><span class="nv">x</span><span class="o">-</span><span class="k">show</span><span class="o">=</span><span class="s2">"$shown"</span>
+<span class="w">    </span><span class="nv">x</span><span class="o">-</span><span class="nv">transition</span>.<span class="nv">duration</span>.<span class="mi">400</span><span class="nv">ms</span>
+<span class="w">    </span><span class="nv">x</span><span class="o">-</span><span class="nv">transition</span>:<span class="nv">enter</span><span class="o">-</span><span class="nv">start</span><span class="o">=</span><span class="s2">"opacity-50 blur-sm"</span>
+<span class="w">    </span><span class="nv">x</span><span class="o">-</span><span class="nv">transition</span>:<span class="nv">enter</span><span class="o">-</span><span class="k">end</span><span class="o">=</span><span class="s2">"opacity-100 blur-none"</span>
+<span class="w">    </span><span class="nv">x</span><span class="o">-</span><span class="nv">transition</span>:<span class="nv">leave</span><span class="o">-</span><span class="nv">start</span><span class="o">=</span><span class="s2">"opacity-100 blur-none"</span>
+<span class="w">    </span><span class="nv">x</span><span class="o">-</span><span class="nv">transition</span>:<span class="nv">leave</span><span class="o">-</span><span class="k">end</span><span class="o">=</span><span class="s2">"opacity-50 blur-sm"</span>
+<span class="o">/&gt;</span>
+</code></pre></div>
+<h1 id="how-did-we-mimic-the-svelte-transition-with-alpinejs">How did we mimic the <code>svelte</code> transition with <code>alpine.js</code><a class="headerlink" href="#how-did-we-mimic-the-svelte-transition-with-alpinejs" title="Permanent link">¶</a></h1>
+<p><strong>"Let's start by saying CSS animations are hard."</strong></p>
+<p>The animation is actually a 4 stage process:</p>
+<p>When <code>x-show</code> is <code>true</code> the component begins the <code>enter-start</code> stage. During this stage, the component will shift from its current transition state, to <code>enter-start</code> for the duration ( in our case <a href="https://alpinejs.dev/directives/transition#customizing-duration">150ms</a> ) of the transition and then to the <code>enter-end</code> stage once it's complete.
+When <code>enter-end</code> stage is complete, the component will shift from <code>enter-end</code> to <code>leave-start</code> for the duration ( again <code>150</code> ms ) of the transition and then to <code>leave-end</code> stage once it's complete. Finally ending the transition.</p>
+<p>Now that we have that out of the way let's dive deeper.</p>
+<ol>
+<li>
+<p>We are adding <code>transition-all</code> ( refer to <a href="https://tailwindcss.com/docs/transition-property">tailwind docs</a> to see what this class adds ) to the parent element. This ensures that we are doing transition on both <code>opacity</code> and <code>blur</code>.</p>
+</li>
+<li>
+<p>Then we are toggling state ( so that transition is started ) by binding <code>x-show</code> directive. ( <a href="https://alpinejs.dev/directives/show"><em>refer to the alpine.js docs for how <code>x-show</code> works</em></a> )</p>
+</li>
+<li>
+<p>When the transition starts. We are changing the <strong><code>opacity: 0.5;</code></strong> and at the same time adding <strong><code>filter: blur(4px);</code></strong> to the element.</p>
+</li>
+<li>
+<p>Then when the transition ends, we are shifting from <code>opacity: 0.5;</code> to <code>opacity: 1;</code> and at the same time removing blur ( remember that our effect is to meant the animation to fade in and out | This essentially makes the old element look like they blurred out )</p>
+</li>
+</ol>
+<p>... Repeat it from the opposite for the new element</p>
+<h1 id="how-does-svelte-handle-tranisiton">How does <code>svelte</code> handle tranisiton<a class="headerlink" href="#how-does-svelte-handle-tranisiton" title="Permanent link">¶</a></h1>
+<p>Let's take a look at this code ( example <a href="https://svelte.dev/repl/2139dfba9c154684a9549dac1dce7bad?version=3.59.1"><code>repl</code></a> ):</p>
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">script</span> <span class="n">lang</span><span class="o">=</span><span class="s1">'ts'</span><span class="o">&gt;</span>
+    <span class="kn">import</span> <span class="p">{</span> <span class="n">blur</span> <span class="p">}</span> <span class="kn">from</span> <span class="s1">'svelte/transition'</span><span class="p">;</span>
+
+    <span class="n">let</span> <span class="n">visible</span> <span class="o">=</span><span class="n">true</span>
+<span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">label</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"checkbox"</span> <span class="n">bind</span><span class="p">:</span><span class="n">checked</span><span class="o">=</span><span class="p">{</span><span class="n">visible</span><span class="p">}</span><span class="o">&gt;</span>
+    <span class="n">visible</span>
+<span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
+
+<span class="p">{</span><span class="c1">#if visible}</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">transition</span><span class="p">:</span><span class="n">blur</span><span class="o">=</span><span class="s2">"{{amount: 10}}"</span><span class="o">&gt;</span>
+        <span class="n">blurs</span> <span class="ow">in</span> <span class="ow">and</span> <span class="n">out</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="p">{</span><span class="o">/</span><span class="k">if</span><span class="p">}</span>
+</code></pre></div>
+<p>If we take a look at the JS output :</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* App.svelte generated by Svelte v3.59.1 */</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">SvelteComponent</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">add_render_callback</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">append</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">attr</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">check_outros</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">create_bidirectional_transition</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">detach</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">element</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">empty</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">group_outros</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">init</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">insert</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">listen</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">safe_not_equal</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">space</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">text</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">transition_in</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">transition_out</span><span class="p">,</span>
+<span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'svelte/internal'</span><span class="p">;</span>
+
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">blur</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'svelte/transition'</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">create_if_block</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">div</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">div_transition</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">current</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">c</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">element</span><span class="p">(</span><span class="s1">'div'</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">div</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'blurs in and out'</span><span class="p">;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">m</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">insert</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">i</span><span class="p">(</span><span class="nx">local</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">            </span><span class="nx">add_render_callback</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">div_transition</span><span class="p">)</span>
+<span class="w">                    </span><span class="nx">div_transition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create_bidirectional_transition</span><span class="p">(</span>
+<span class="w">                        </span><span class="nx">div</span><span class="p">,</span>
+<span class="w">                        </span><span class="nx">blur</span><span class="p">,</span>
+<span class="w">                        </span><span class="p">{</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="kt">10</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                        </span><span class="kc">true</span>
+<span class="w">                    </span><span class="p">);</span>
+<span class="w">                </span><span class="nx">div_transition</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="w">            </span><span class="p">});</span>
+
+<span class="w">            </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">o</span><span class="p">(</span><span class="nx">local</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">div_transition</span><span class="p">)</span>
+<span class="w">                </span><span class="nx">div_transition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create_bidirectional_transition</span><span class="p">(</span>
+<span class="w">                    </span><span class="nx">div</span><span class="p">,</span>
+<span class="w">                    </span><span class="nx">blur</span><span class="p">,</span>
+<span class="w">                    </span><span class="p">{</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="kt">10</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                    </span><span class="kc">false</span>
+<span class="w">                </span><span class="p">);</span>
+<span class="w">            </span><span class="nx">div_transition</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">d</span><span class="p">(</span><span class="nx">detaching</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">detaching</span><span class="p">)</span><span class="w"> </span><span class="nx">detach</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">detaching</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">div_transition</span><span class="p">)</span><span class="w"> </span><span class="nx">div_transition</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">create_fragment</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">label</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">input</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">t0</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">t1</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">if_block_anchor</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">current</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mounted</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">dispose</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">if_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/*visible*/</span><span class="w"> </span><span class="nx">ctx</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">create_if_block</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">c</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">element</span><span class="p">(</span><span class="s1">'label'</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">element</span><span class="p">(</span><span class="s1">'input'</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">text</span><span class="p">(</span><span class="s1">'\n\tvisible'</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">space</span><span class="p">();</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">if_block</span><span class="p">)</span><span class="w"> </span><span class="nx">if_block</span><span class="p">.</span><span class="nx">c</span><span class="p">();</span>
+<span class="w">            </span><span class="nx">if_block_anchor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">empty</span><span class="p">();</span>
+<span class="w">            </span><span class="nx">attr</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span><span class="w"> </span><span class="s1">'type'</span><span class="p">,</span><span class="w"> </span><span class="s1">'checkbox'</span><span class="p">);</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">m</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">insert</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">append</span><span class="p">(</span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">input</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">input</span><span class="p">.</span><span class="nx">checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/*visible*/</span><span class="w"> </span><span class="nx">ctx</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<span class="w">            </span><span class="nx">append</span><span class="p">(</span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">t0</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">insert</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">t1</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">if_block</span><span class="p">)</span><span class="w"> </span><span class="nx">if_block</span><span class="p">.</span><span class="nx">m</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">insert</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">if_block_anchor</span><span class="p">,</span><span class="w"> </span><span class="nx">anchor</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">mounted</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">dispose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">listen</span><span class="p">(</span>
+<span class="w">                    </span><span class="nx">input</span><span class="p">,</span>
+<span class="w">                    </span><span class="s1">'change'</span><span class="p">,</span>
+<span class="w">                    </span><span class="cm">/*input_change_handler*/</span><span class="w"> </span><span class="nx">ctx</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+<span class="w">                </span><span class="p">);</span>
+<span class="w">                </span><span class="nx">mounted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">p</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">dirty</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">dirty</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="cm">/*visible*/</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">input</span><span class="p">.</span><span class="nx">checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/*visible*/</span><span class="w"> </span><span class="nx">ctx</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="cm">/*visible*/</span><span class="w"> </span><span class="nx">ctx</span><span class="p">[</span><span class="mf">0</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">if_block</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">dirty</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="cm">/*visible*/</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">transition_in</span><span class="p">(</span><span class="nx">if_block</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">if_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create_if_block</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span>
+<span class="w">                    </span><span class="nx">if_block</span><span class="p">.</span><span class="nx">c</span><span class="p">();</span>
+<span class="w">                    </span><span class="nx">transition_in</span><span class="p">(</span><span class="nx">if_block</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
+<span class="w">                    </span><span class="nx">if_block</span><span class="p">.</span><span class="nx">m</span><span class="p">(</span><span class="nx">if_block_anchor</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">,</span><span class="w"> </span><span class="nx">if_block_anchor</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">if_block</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">group_outros</span><span class="p">();</span>
+
+<span class="w">                </span><span class="nx">transition_out</span><span class="p">(</span><span class="nx">if_block</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">if_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">                </span><span class="p">});</span>
+
+<span class="w">                </span><span class="nx">check_outros</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">i</span><span class="p">(</span><span class="nx">local</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">transition_in</span><span class="p">(</span><span class="nx">if_block</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">o</span><span class="p">(</span><span class="nx">local</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">transition_out</span><span class="p">(</span><span class="nx">if_block</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">d</span><span class="p">(</span><span class="nx">detaching</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">detaching</span><span class="p">)</span><span class="w"> </span><span class="nx">detach</span><span class="p">(</span><span class="nx">label</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">detaching</span><span class="p">)</span><span class="w"> </span><span class="nx">detach</span><span class="p">(</span><span class="nx">t1</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">if_block</span><span class="p">)</span><span class="w"> </span><span class="nx">if_block</span><span class="p">.</span><span class="nx">d</span><span class="p">(</span><span class="nx">detaching</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">detaching</span><span class="p">)</span><span class="w"> </span><span class="nx">detach</span><span class="p">(</span><span class="nx">if_block_anchor</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">mounted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">dispose</span><span class="p">();</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">instance</span><span class="p">(</span><span class="nx">$$self</span><span class="p">,</span><span class="w"> </span><span class="nx">$$props</span><span class="p">,</span><span class="w"> </span><span class="nx">$$invalidate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">function</span><span class="w"> </span><span class="nx">input_change_handler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">checked</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">$$invalidate</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">visible</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="nx">visible</span><span class="p">,</span><span class="w"> </span><span class="nx">input_change_handler</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">SvelteComponent</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">init</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">,</span><span class="w"> </span><span class="nx">instance</span><span class="p">,</span><span class="w"> </span><span class="nx">create_fragment</span><span class="p">,</span><span class="w"> </span><span class="nx">safe_not_equal</span><span class="p">,</span><span class="w"> </span><span class="p">{});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">App</span><span class="p">;</span>
+</code></pre></div>
+<p>we can see that <code>svelte</code> is calling <a href="https://github.com/sveltejs/svelte/blob/3bc791bcba97f0810165c7a2e215563993a0989b/src/runtime/internal/transitions.ts#L269-L393"><code>create_bidirectional_transition</code></a> under the hood. Which just adds a <code>style=animation: ${time} linear 0ms 1 normal both running</code> tag and a <code>svelte</code> specific class that specifies the tranistion type to the html component ( in our case the <code>blur</code> effect ).</p>
+<p>Under the hood svelte rapidly switches between the 4 stage animation which we can see here :</p>
+<p>The first <code>enter</code> stage is in this function :</p>
+<div class="highlight"><pre><span></span><code><span class="nx">i</span><span class="p">(</span><span class="nx">local</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nx">add_render_callback</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">div_transition</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">div_transition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create_bidirectional_transition</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">div</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">blur</span><span class="p">,</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="kt">10</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="kc">true</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">    </span><span class="nx">div_transition</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The second <code>leave</code> stage is in this function :</p>
+<div class="highlight"><pre><span></span><code><span class="nx">o</span><span class="p">(</span><span class="nx">local</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">div_transition</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">div_transition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create_bidirectional_transition</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">div</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">blur</span><span class="p">,</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="kt">10</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="nx">div_transition</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>With this we can conclude that svelte is also running ( albeit with less hassle ) a 4 stage animation ( like the one we created before with alpine.js ).</p>
+<p>Then what the heck does <code>import { blur } from 'svelte/transition';</code> do ?</p>
+<p>Lets refer to the <a href="https://github.com/sveltejs/svelte/blob/3bc791bcba97f0810165c7a2e215563993a0989b/src/runtime/transition/index.ts#LL22C1-L41C2">source</a></p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">blur</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">node</span><span class="o">:</span><span class="w"> </span><span class="kt">Element</span><span class="p">,</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">400</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">easing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cubicInOut</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">opacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="nx">BlurParams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">TransitionConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">target_opacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="nx">style</span><span class="p">.</span><span class="nx">opacity</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">style</span><span class="p">.</span><span class="nx">filter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'none'</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">style</span><span class="p">.</span><span class="nx">filter</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">od</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">target_opacity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">opacity</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">unit</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">split_css_unit</span><span class="p">(</span><span class="nx">amount</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">delay</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">duration</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">easing</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">css</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">_t</span><span class="p">,</span><span class="w"> </span><span class="nx">u</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
+<span class="w">            </span><span class="sb">`opacity: </span><span class="si">${</span><span class="nx">target_opacity</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">od</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">u</span><span class="si">}</span><span class="sb">; filter: </span><span class="si">${</span><span class="nx">f</span><span class="si">}</span><span class="sb"> blur(</span><span class="si">${</span>
+<span class="w">                </span><span class="nx">u</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">value</span>
+<span class="w">            </span><span class="si">}${</span><span class="nx">unit</span><span class="si">}</span><span class="sb">);`</span><span class="p">,</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>We can see that <code>svelte</code> is running a:</p>
+<ol>
+<li><strong>duration</strong> of <strong>400</strong></li>
+<li><strong>easing</strong> is <code>cubic-in-out</code></li>
+<li>With optional control of <strong>opacity</strong></li>
+</ol>
+<p>Overall pretty close to our <code>alpinejs</code> implementation.</p>
+<h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h1>
+<p>While the transition is not perfect ( nothing is ), it gives developers a taste of what's possible with <code>alpine.js</code>.</p>
+<p>The vast majority of the web is based on <code>MPA</code> and <code>alpine.js</code> is progressively enhancing those <code>MPA</code>'s with <code>SPA</code> like features.</p>
+<p>Developers should add more eye candy into their <strong>good ol' <em>dandy website</em></strong> instead of chasing after the shiny new JS frameworks.</p>
+<!-- <div class="aspect-w-16 aspect-h-9 mx-auto"></div> CSS placeholder -->
+</div>
+<footer class="flex flex-col mt-10">
+<ul class="flex flex-wrap">
+<a href="https://baseplate-admin.github.io/blog/tag/alpine.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Alpine
+            </li>
+</a>
+<a href="https://baseplate-admin.github.io/blog/tag/svelte.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Svelte
+            </li>
+</a>
+<a href="https://baseplate-admin.github.io/blog/tag/tailwind.html">
+<li class="bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-800 dark:bg-zinc-700 text-zinc-500 dark:text-neutral-400 mb-2 mr-2 px-3 py-1.5 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
+              Tailwind
+            </li>
+</a>
+</ul>
+<div class="flex w-full my-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg">
+<div class="w-1/2 hover:bg-zinc-300 dark:hover:bg-zinc-800 rounded-l-lg">
+<a class="flex flex-col pr-2" href="https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html">
+<div class="mx-4 py-2 text-left">
+<p class="text-zinc-500 dark:text-neutral-400 text-sm">« PREV PAGE</p>
+<p class="text-left py-1 hover:underline">Why I chose <code>django-ninja</code> instead of <code>django-rest-framework</code> to build <code>coreproject</code></p>
+</div>
+</a>
+</div>
+<div class="w-1/2 hover:bg-zinc-300 dark:hover:bg-zinc-800 rounded-r-lg">
+<a class="flex flex-col" href="https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html">
+<div class="text-right mx-4 py-2">
+<p class="text-zinc-500 dark:text-neutral-400 text-sm">NEXT PAGE »</p>
+<p class="text-right py-1 hover:underline">How I added <code>daphne</code> server dectection to <code>wappalyzer</code></p>
+</div>
+</a>
+</div>
+</div>
+<div class="flex bg-zinc-200 dark:bg-zinc-700 py-2 rounded-lg justify-center space-x-2 text-xs">
+<ul>
+<a aria-label="share Features on facebook" href="https://facebook.com/sharer/sharer.php?u=https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="noopener noreferrer" target="_blank" title="facebook">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-facebook fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="noopener noreferrer" target="_blank" title="linkedin">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-linkedin fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on reddit" href="https://reddit.com/submit?url=https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="noopener noreferrer" target="_blank" title="reddit">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-reddit fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on telegram" href="https://telegram.me/share/url?text=Features&amp;url=https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="noopener noreferrer" target="_blank" title="telegram">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-telegram fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on twitter" href="https://twitter.com/intent/tweet/?text=Features&amp;url=https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="noopener noreferrer" target="_blank" title="twitter">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-twitter fa-2x"></i>
+</li>
+</a>
+</ul>
+<ul>
+<a aria-label="share Features on whatsapp" href="https://api.whatsapp.com/send?text=Features - https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html" rel="noopener noreferrer" target="_blank" title="whatsapp">
+<li class="bg-gray-900 p-1 text-white rounded-md">
+<i aria-hidden="true" class="fab fa-whatsapp fa-2x"></i>
+</li>
+</a>
+</ul>
+</div>
+</footer>
+<div>
+</div>
+</main>
+</div>
+<footer class="flex w-full text-xs justify-center mt-10 mb-6 text-zinc-500 dark:text-zinc-400">
+<div class="px-4">
+<span>©2023 • </span>Powered by
+                <a class="underline" href="https://getpelican.com/">Pelican</a> &amp;
+                <a class="underline" href="https://github.com/aleylara/Papyrus">Papyrus</a>
+</div>
+</footer>
+<script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] =
+                c[a] ||
+            function () {
+                (c[a].q = c[a].q || []).push(arguments);
+            };
+            t = l.createElement(r);
+            t.async = 1;
+            t.src = 'https://www.clarity.ms/tag/' + i;
+            y = l.getElementsByTagName(r)[0];
+            y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', 'fyrg8w1vbe');
+    </script>
+<script>
+            (()=>{
+                let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+                let themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+                if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                    '(prefers-color-scheme: dark)').matches)) {
+                        themeToggleLightIcon.classList.remove('hidden');
+                    } else {
+                        themeToggleDarkIcon.classList.remove('hidden');
+                    }
+                let themeToggleBtn = document.getElementById('theme-toggle');
+                themeToggleBtn.addEventListener('click', function () {
+                    themeToggleDarkIcon.classList.toggle('hidden');
+                    themeToggleLightIcon.classList.toggle('hidden');
+                    if (localStorage.getItem('color-theme')) {
+                        if (localStorage.getItem('color-theme') === 'light') {
+                            document.documentElement.classList.add('dark');
+                            localStorage.setItem('color-theme', 'dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.setItem('color-theme', 'light');
+                        }
+                    } else {
+                        if (document.documentElement.classList.contains('dark')) {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.setItem('color-theme', 'light');
+                        } else {
+                            document.documentElement.classList.add('dark');
+                            localStorage.setItem('color-theme', 'dark');
+                        }
+                    }
+                });
+            })()
+        </script>
+</body>
+</html>

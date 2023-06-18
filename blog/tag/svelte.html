@@ -9,7 +9,7 @@
             <!--Site Verification -->
             <meta name="google-site-verification" content="1V8JvhKMWGfr6TWJehCv6E9IMDRcDFlTfrLSyvN1IQU" />
             <meta name="msvalidate.01" content="D6960B5563B917400B80A2119D695F17" />
-            <title>Blog | Categories</title>
+            <title> Svelte | Blog</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.3.0/css/all.min.css" />
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
             <link rel="stylesheet" type="text/css" href="https://baseplate-admin.github.io/blog/theme/css/main.css" />
@@ -61,7 +61,7 @@
                     <a  href="https://baseplate-admin.github.io/blog/archives.html">Archive</a>
                 </li>
                 <li class="mr-4 pt-6">
-                    <a  class="border-b-2 border-zinc-800 dark:border-zinc-300"  href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
+                    <a  href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
                 </li>
                 <li class="mr-4 pt-6">
                     <a  href="https://baseplate-admin.github.io/blog/tags.html">Tags</a>
@@ -72,37 +72,80 @@
             </ul>
         </nav>
         <div class="flex-grow md:max-w-screen-md md:mx-auto md:w-3/4 px-4">
+                <nav class="text-zinc-800 dark:text-zinc-300 mt-12 pb-3 md:mt-16" aria-label="Breadcrumb">
+                    <ul class="p-0 inline-flex">
+                        <li class="flex items-center">
+                            <a href="https://baseplate-admin.github.io/blog/" class="text-zinc-800 dark:text-zinc-300 inline-flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                          d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                    </path>
+                                </svg>
+                                Home
+                            </a>
+                            <svg class="fill-current w-3 h-3 mr-2 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 320 512">
+                                <path
+                                      d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
+                            </svg>
+                        </li>
+                        <li class="flex items-center">
+                            <a href="https://baseplate-admin.github.io/blog/tags.html">Tags</a>
+                            <svg class="fill-current w-3 h-3 mr-2 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 320 512">
+                                <path
+                                      d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
+                            </svg>
+                        </li>
+                        <li class="border-b-2 border-zinc-800 dark:border-zinc-300">
+                            Svelte
+                        </li>
+                    </ul>
+                </nav>
 
-    <div class="mb-12 md:mt-14 text-zinc-800 dark:text-zinc-300">
-        <h1 class="font-bold text-4xl my-10">Categories</h1>
-        <ul class="flex flex-wrap font-medium">
-                <a href="https://baseplate-admin.github.io/blog/category/alpinejs.html">
-                    <li
-                        class="bg-zinc-300 dark:bg-neutral-700 text-zinc-800 dark:text-zinc-300 hover:bg-zinc-400 dark:hover:bg-zinc-800 m-2 py-2 px-2 md:px-4 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
-                        alpine.js<sup class="p-1">1</sup></li>
-                </a>
-                <a href="https://baseplate-admin.github.io/blog/category/daphne.html">
-                    <li
-                        class="bg-zinc-300 dark:bg-neutral-700 text-zinc-800 dark:text-zinc-300 hover:bg-zinc-400 dark:hover:bg-zinc-800 m-2 py-2 px-2 md:px-4 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
-                        Daphne<sup class="p-1">1</sup></li>
-                </a>
-                <a href="https://baseplate-admin.github.io/blog/category/django.html">
-                    <li
-                        class="bg-zinc-300 dark:bg-neutral-700 text-zinc-800 dark:text-zinc-300 hover:bg-zinc-400 dark:hover:bg-zinc-800 m-2 py-2 px-2 md:px-4 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
-                        Django<sup class="p-1">2</sup></li>
-                </a>
-                <a href="https://baseplate-admin.github.io/blog/category/honeyworks.html">
-                    <li
-                        class="bg-zinc-300 dark:bg-neutral-700 text-zinc-800 dark:text-zinc-300 hover:bg-zinc-400 dark:hover:bg-zinc-800 m-2 py-2 px-2 md:px-4 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
-                        Honeyworks<sup class="p-1">1</sup></li>
-                </a>
-                <a href="https://baseplate-admin.github.io/blog/category/life.html">
-                    <li
-                        class="bg-zinc-300 dark:bg-neutral-700 text-zinc-800 dark:text-zinc-300 hover:bg-zinc-400 dark:hover:bg-zinc-800 m-2 py-2 px-2 md:px-4 rounded-md transition ease-in active:-translate-y-1 active:scale-110 duration-75">
-                        Life<sup class="p-1">1</sup></li>
-                </a>
-        </ul>
-    </div>
+
+
+  <div class="py-1">
+    <ul>
+        <li class="transition ease-in active:-translate-y-1 active:scale-110 duration-75" onclick='window.router.go("https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html")'>
+          <div class="bg-white dark:bg-zinc-800 p-4 md:p-6 mb-4 rounded-lg">
+            <header class="font-semibold text-2xl mb-2">
+              <h1>How I recreated <code>svelte</code> <code>blur</code> effect using <code>alpinejs</code> and <code>tailwind.css</code></h1>
+            </header>
+            <div class="max-w-7xl container mx-auto my-4 justify-center overflow-hidden mb-2 text-sm text-zinc-800 dark:text-zinc-400
+                        prose lg:max-w-none prose-headings:text-zinc-800 prose-headings:dark:text-zinc-300
+                        prose-h1:text-3xl prose-headings:font-semibold
+                        prose-pre:bg-zinc-200 prose-pre:text-zinc-800
+                        dark:prose-pre:bg-zinc-800 dark:prose-pre:text-zinc-200
+                        prose-blockquote:text-zinc-800
+                        dark:prose-blockquote:text-zinc-200
+                        prose-a:text-gray-500
+                        dark:prose-a:text-gray-400
+                        dark:prose-strong:text-zinc-200
+                        dark:prose-code:text-zinc-200
+                        dark:prose-code:bg-zinc-800
+                        prose-code:bg-zinc-200
+                        prose-code:font-light
+                        prose-img:rounded-md
+                       ">
+              <p>It's not a surprise that both <code>svelte</code> and <code>alpine.js</code> are both popular framework. It's no surprise that both framework has some quirks up it's sleeve.</p>
+<ul>
+<li><code>svelte</code> offers a lightweight framework ( which can suffice even the most complex of features ) which adds syntactic sugar to make the developer's job easier …</li></ul>
+            </div>
+            <div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+              <time>February 24, 2023</time>
+              <div>
+                  <span>&nbsp;·&nbsp;14 min read</span>
+              </div>
+              <div>
+                  <span>&nbsp;·&nbsp;Baseplate-Admin</span>
+              </div>
+            </div>
+          </div>
+        </li>
+    </ul>
+  </div>
 
         </div>
         <footer class="flex w-full text-xs justify-center mt-10 mb-6 text-zinc-500 dark:text-zinc-400">
