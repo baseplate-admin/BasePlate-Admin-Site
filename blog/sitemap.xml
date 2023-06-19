@@ -5,224 +5,224 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/</loc>
-<lastmod>2023-06-19T11:23:44-00:00</lastmod>
+<lastmod>2023-06-19T11:38:36-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-to-make-a-permission_required-decorator-for-django-ninja</loc>
-<lastmod>2023-06-19T11:13:39+06:00</lastmod>
+<lastmod>2023-06-19T11:25:39+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html</loc>
-<lastmod>2023-06-19T10:46:47+06:00</lastmod>
+<lastmod>2023-06-19T11:25:39+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-i-recreated-svelte-blur-effect-using-alpinejs-and-tailwindcss.html</loc>
-<lastmod>2023-06-19T10:59:57+06:00</lastmod>
+<lastmod>2023-06-19T11:25:39+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html</loc>
-<lastmod>2023-06-19T10:46:25+06:00</lastmod>
+<lastmod>2023-06-19T11:25:39+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-i-lost-my-first-pc.html</loc>
-<lastmod>2023-06-19T10:46:25+06:00</lastmod>
+<lastmod>2023-06-19T11:25:38+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-i-fell-in-love-with-honeyworks.html</loc>
-<lastmod>2023-06-19T10:46:25+06:00</lastmod>
+<lastmod>2023-06-19T11:25:38+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/how-i-fixed-htmx-redeclaration-of-let-element-with-hx-boosttrue.html</loc>
-<lastmod>2023-06-19T11:23:42+06:00</lastmod>
+<lastmod>2023-06-19T11:28:34+06:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/alpinejs.html</loc>
-<lastmod>2023-06-19T10:59:57+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/daphne.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/django.html</loc>
-<lastmod>2023-06-19T11:23:42+06:02</lastmod>
+<lastmod>2023-06-19T11:28:34+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/django-ninja.html</loc>
-<lastmod>2023-06-19T11:13:39+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/honeyworks.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/category/life.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/django-ninja.html</loc>
-<lastmod>2023-06-19T11:13:39+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/django.html</loc>
-<lastmod>2023-06-19T11:23:42+06:02</lastmod>
+<lastmod>2023-06-19T11:28:34+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/coreproject.html</loc>
-<lastmod>2023-06-19T10:46:47+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/alpine.html</loc>
-<lastmod>2023-06-19T10:59:57+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/tailwind.html</loc>
-<lastmod>2023-06-19T10:59:57+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/svelte.html</loc>
-<lastmod>2023-06-19T10:59:57+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/daphne.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/wappalyzer.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:39+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/pc.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/tinkering.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/honeyworks.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/anime.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/gao-bai-shi-xing-wei-yuan-hui-kokuhaku-jikkou-iinkai.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/genshin-impact.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/rebel-rox.html</loc>
-<lastmod>2023-06-19T10:46:25+06:02</lastmod>
+<lastmod>2023-06-19T11:25:38+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/htmx.html</loc>
-<lastmod>2023-06-19T11:23:42+06:02</lastmod>
+<lastmod>2023-06-19T11:28:34+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/tag/single-page-router.html</loc>
-<lastmod>2023-06-19T11:23:42+06:02</lastmod>
+<lastmod>2023-06-19T11:28:34+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
 
 <url>
 <loc>https://baseplate-admin.github.io/blog/author/baseplate-admin.html</loc>
-<lastmod>2023-06-19T11:23:42+06:02</lastmod>
+<lastmod>2023-06-19T11:28:34+06:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.1</priority>
 </url>
