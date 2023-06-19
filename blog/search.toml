@@ -4,6 +4,11 @@ html_selector = "main"
 base_directory = "output"
 
 [[input.files]]
+path = "how-to-make-a-permission_required-decorator-for-django-ninja.html"
+url = "/how-to-make-a-permission_required-decorator-for-django-ninja"
+title = "How to make a permission_required decorator for django-ninja"
+
+[[input.files]]
 path = "why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html"
 url = "/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html"
 title = "Why I chose django-ninja instead of django-rest-framework to build coreproject"

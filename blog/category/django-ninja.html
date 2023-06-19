@@ -9,7 +9,7 @@
             <!--Site Verification -->
             <meta name="google-site-verification" content="1V8JvhKMWGfr6TWJehCv6E9IMDRcDFlTfrLSyvN1IQU" />
             <meta name="msvalidate.01" content="D6960B5563B917400B80A2119D695F17" />
-            <title> wappalyzer | Blog</title>
+            <title>Django-Ninja | Blog</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.3.0/css/all.min.css" />
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
             <link rel="stylesheet" type="text/css" href="https://baseplate-admin.github.io/blog/theme/css/main.css" />
@@ -91,7 +91,7 @@
                             </svg>
                         </li>
                         <li class="flex items-center">
-                            <a href="https://baseplate-admin.github.io/blog/tags.html">Tags</a>
+                            <a href="https://baseplate-admin.github.io/blog/categories.html">Categories</a>
                             <svg class="fill-current w-3 h-3 mr-2 ml-1" xmlns="http://www.w3.org/2000/svg"
                                  viewBox="0 0 320 512">
                                 <path
@@ -99,7 +99,7 @@
                             </svg>
                         </li>
                         <li class="border-b-2 border-zinc-800 dark:border-zinc-300">
-                            wappalyzer
+                            Django-Ninja
                         </li>
                     </ul>
                 </nav>
@@ -108,10 +108,10 @@
 
   <div class="py-1">
     <ul>
-        <li class="transition ease-in active:-translate-y-1 active:scale-110 duration-75" onclick='window.router.go("https://baseplate-admin.github.io/blog/how-i-added-daphne-server-dectection-to-wappalyzer.html")'>
+        <li class="transition ease-in active:-translate-y-1 active:scale-110 duration-75" onclick='window.router.go("https://baseplate-admin.github.io/blog/how-to-make-a-permission_required-decorator-for-django-ninja")'>
           <div class="bg-white dark:bg-zinc-800 p-4 md:p-6 mb-4 rounded-lg">
             <header class="font-semibold text-2xl mb-2">
-              <h1>How I added <code>daphne</code> server dectection to <code>wappalyzer</code></h1>
+              <h1>How to make a <code>permission_required</code> decorator for <code>django-ninja</code></h1>
             </header>
             <div class="max-w-7xl container mx-auto my-4 justify-center overflow-hidden mb-2 text-sm text-zinc-800 dark:text-zinc-400
                         prose lg:max-w-none prose-headings:text-zinc-800 prose-headings:dark:text-zinc-300
@@ -129,13 +129,46 @@
                         prose-code:font-light
                         prose-img:rounded-md
                        ">
-              <p>Back in the end of 2021 I was really amazed by <code>wappalyzer</code>. This seemingly small piece of extension can detect what the backend is ( albeit not guranteed ).</p>
-<p>As I was relatively new to <code>django</code> back then I was amazed that many of the top sites are powered by django ( <strong>・ …</strong></p>
+              <p>It's no surprise that <code>django-ninja</code> is the next big thing for <code>django</code>. But as you might have assumed, <code>django-ninja</code> is the new kid on the block. It lacks many of the necessary features of <code>django-rest-framework</code> ( eg: <strong><code>throttling</code></strong>,<strong><code>permission_required</code></strong> ). Recreating all of that in one article is not a feasible thing …</p>
             </div>
             <div class="flex text-xs text-zinc-800 dark:text-zinc-400">
-              <time>February 23, 2023</time>
+              <time>June 19, 2023</time>
               <div>
-                  <span>&nbsp;·&nbsp;7 min read</span>
+                  <span>&nbsp;·&nbsp;4 min read</span>
+              </div>
+              <div>
+                  <span>&nbsp;·&nbsp;Baseplate-Admin</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="transition ease-in active:-translate-y-1 active:scale-110 duration-75" onclick='window.router.go("https://baseplate-admin.github.io/blog/why-i-chose-django-ninja-instead-of-django-rest-framework-to-build-coreproject.html")'>
+          <div class="bg-white dark:bg-zinc-800 p-4 md:p-6 mb-4 rounded-lg">
+            <header class="font-semibold text-2xl mb-2">
+              <h1>Why I chose <code>django-ninja</code> instead of <code>django-rest-framework</code> to build <code>coreproject</code></h1>
+            </header>
+            <div class="max-w-7xl container mx-auto my-4 justify-center overflow-hidden mb-2 text-sm text-zinc-800 dark:text-zinc-400
+                        prose lg:max-w-none prose-headings:text-zinc-800 prose-headings:dark:text-zinc-300
+                        prose-h1:text-3xl prose-headings:font-semibold
+                        prose-pre:bg-zinc-200 prose-pre:text-zinc-800
+                        dark:prose-pre:bg-zinc-800 dark:prose-pre:text-zinc-200
+                        prose-blockquote:text-zinc-800
+                        dark:prose-blockquote:text-zinc-200
+                        prose-a:text-gray-500
+                        dark:prose-a:text-gray-400
+                        dark:prose-strong:text-zinc-200
+                        dark:prose-code:text-zinc-200
+                        dark:prose-code:bg-zinc-800
+                        prose-code:bg-zinc-200
+                        prose-code:font-light
+                        prose-img:rounded-md
+                       ">
+              <p><code>django-ninja</code> is a relatively new framework ( <a href="https://github.com/vitalik/django-ninja/commit/1b79e8de644aef247e0456daa3b566db70fe1c07">first commit was in July 21, 2020</a> ). So you might ask why would you use it instead of something like <code>django-rest-framework</code> ( whose first commit was all the way back in <a href="https://github.com/vitormazzi/django-rest-framework/commit/650111dc8c0800e5b7d4c878c1d454657b68efca">Dec 30,2011</a> ). Well I am glad that you asked this question. Let's talk …</p>
+            </div>
+            <div class="flex text-xs text-zinc-800 dark:text-zinc-400">
+              <time>June 17, 2023</time>
+              <div>
+                  <span>&nbsp;·&nbsp;10 min read</span>
               </div>
               <div>
                   <span>&nbsp;·&nbsp;Baseplate-Admin</span>
